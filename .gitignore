@@ -1,0 +1,15 @@
+coverage
+deploy
+.env
+.eslintcache
+lib
+node_modules
+.tmp-build
+
+log*
+npm-debug.log*
+*.swp
+yarn-debug.log*
+yarn-error.log*
+
+!log*.ts

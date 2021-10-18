@@ -1,0 +1,62 @@
+{
+  "name": "pack-it",
+  "version": "0.1.0",
+  "description": "A library used to package source code.",
+  "author": "Tramaine L. Gillus",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:tgillus/pack-it.git"
+  },
+  "license": "ISC",
+  "bin": {
+    "pack-it": "lib/bin/pack-it"
+  },
+  "scripts": {
+    "build": "rimraf ./lib && tsc && npm run copy-files",
+    "build:artifact": "gulp build",
+    "build:artifact:clean": "gulp clean",
+    "build:artifact:upload": "npm run build:artifact && gulp upload",
+    "clean": "rimraf ./build",
+    "copy-files": "copyfiles -u 1 src/bin/pack-it lib",
+    "format": "prettier . --write",
+    "lint": "eslint . --ext .js,.ts",
+    "lint:fix": "eslint . --ext .js,.ts --fix",
+    "prepare": "husky install",
+    "start": "npm run build && NODE_OPTIONS=--enable-source-maps node build/server.js",
+    "test": "jest",
+    "test:cov": "jest --coverage",
+    "test:watch": "jest --watch --maxWorkers=1",
+    "watch": "tsc -c"
+  },
+  "devDependencies": {
+    "@types/app-root-dir": "^0.1.0",
+    "@types/figlet": "^1.5.4",
+    "@types/jest": "^26.0.24",
+    "@types/node": "^16.3.3",
+    "@typescript-eslint/eslint-plugin": "^4.28.3",
+    "@typescript-eslint/parser": "^4.28.3",
+    "copyfiles": "^2.4.1",
+    "eslint": "^7.30.0",
+    "gulp": "^4.0.2",
+    "gulp-cli": "^2.3.0",
+    "gulp-zip": "^5.1.0",
+    "husky": "^7.0.1",
+    "jest": "^27.0.6",
+    "lint-staged": "^11.0.1",
+    "prettier": "^2.3.2",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^27.0.3",
+    "ts-node": "^10.1.0",
+    "typescript": "^4.3.5"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.27.0",
+    "app-root-dir": "^1.0.2",
+    "chalk": "^4.1.2",
+    "commander": "^8.2.0",
+    "execa": "^5.1.1",
+    "figlet": "^1.5.2",
+    "loglevel": "^1.7.1",
+    "source-map-support": "^0.5.20"
+  }
+}
