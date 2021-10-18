@@ -8,12 +8,14 @@ export class Clean implements PackItCommand {
 
   constructor(packager: Packager) {
     this.command = new Command('clean');
-    this.command.description('remove tmp build directory').action(async () => {
-      try {
-        await packager.clean();
-      } catch (error) {
-        log.error(error);
-      }
-    });
+    this.command
+      .description('remove tmp and artifact build directory')
+      .action(async () => {
+        try {
+          await packager.clean();
+        } catch (error) {
+          log.error(error);
+        }
+      });
   }
 }
