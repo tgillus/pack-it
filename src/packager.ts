@@ -15,7 +15,7 @@ export class Packager {
   }
 
   async clean(): Promise<void> {
-    log.info(chalk.green('Removing tmp and artifact build paths'));
+    log.info(chalk.green('Removing tmp build and build artifact paths'));
     await Promise.all([
       execa('npx', ['rimraf', this.config.tmpBuildPath()]),
       execa('npx', ['rimraf', this.config.artifactBuildPath()]),
