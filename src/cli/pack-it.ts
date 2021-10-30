@@ -18,7 +18,6 @@ log.info(
   figlet.textSync('Pack It!', {
     font: 'Standard',
     horizontalLayout: 'full',
-    verticalLayout: 'full',
   })
 );
 

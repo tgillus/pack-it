@@ -4,11 +4,15 @@ const stages = {
   },
 };
 
+const stageName = process.env.STAGE || 'development';
+const branch = process.env.BRANCH || stages[stageName].defaultBranch;
+
 module.exports = {
-  stageName: function () {
-    return process.env.STAGE || 'development';
+  stage: {
+    name: stageName,
   },
-  branch: function () {
-    return process.env.BRANCH || stages[this.stageName()].defaultBranch;
+  git: {
+    url: 'git@github.com:tgillus/pack-it.git',
+    branch,
   },
 };

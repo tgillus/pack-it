@@ -9,6 +9,9 @@ export class Packager {
   async pack(): Promise<void> {
     log.info(chalk.green('packaging'));
     await this.clean();
+    await this.mkTmpBuildDir();
+    await this.cdTmpBuildDir();
+    await this.clone();
   }
 
   async clean(): Promise<void> {
@@ -16,6 +19,26 @@ export class Packager {
     await Promise.all([
       execa('npx', ['rimraf', this.config.tmpBuildPath()]),
       execa('npx', ['rimraf', this.config.artifactBuildPath()]),
+    ]);
+  }
+
+  private async mkTmpBuildDir(): Promise<void> {
+    await execa('mkdir', ['-p', this.config.tmpBuildPath()]);
+  }
+
+  private async cdTmpBuildDir(): Promise<void> {
+    await execa('cd', [this.config.tmpBuildPath()]);
+  }
+
+  private async clone(): Promise<void> {
+    const { url, branch } = this.config.options.git;
+
+    await execa('git', [
+      'clone',
+      url,
+      '-b',
+      branch,
+      this.config.tmpBuildPath(),
     ]);
   }
 }
