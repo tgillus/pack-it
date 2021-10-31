@@ -1,5 +1,5 @@
 {
-  "name": "pack-it",
+  "name": "@triviumsoftware/pack-it",
   "version": "0.1.0",
   "description": "A library used to package source code as a ZIP file.",
   "author": "Tramaine L. Gillus",

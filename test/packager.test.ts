@@ -35,8 +35,8 @@ test('packages source code into zip file', async () => {
   const packager = new Packager(config);
   const { gitUrl, gitBranch } = config;
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const { name, version } = require('../package.json');
-  const fullZipPath = `${config.fullArtifactPath}/${name}-${version}.zip`;
+  const { version } = require('../package.json');
+  const fullZipPath = `${config.fullArtifactPath}/${config.projectName}-${version}.zip`;
 
   const packagerCleanSpy = jest.spyOn(packager, 'clean').mockResolvedValue();
   const mockWriteStream: unknown = new PassThrough();
@@ -72,13 +72,11 @@ test('packages source code into zip file', async () => {
   expect(mockExeca).toBeCalledWith('mkdir', ['-p', config.fullArtifactPath]);
   expect(mockArchiver).toBeCalledWith('zip');
   expect(mockArchiver().pipe).toBeCalledWith(mockWriteStream);
-  expect(mockArchiver().directory).toBeCalledWith(
-    config.fullSrcPath,
-    config.srcDir
-  );
-  expect(mockArchiver().directory).toBeCalledWith(
-    path.join(config.fullTmpPath, 'node_modules'),
-    'node_modules'
-  );
+  config.fullIncludeDirPaths.forEach((fullIncludeDirPath) => {
+    expect(mockArchiver().directory).toBeCalledWith(
+      fullIncludeDirPath,
+      path.basename(fullIncludeDirPath)
+    );
+  });
   expect(mockArchiver().finalize).toBeCalledTimes(1);
 });

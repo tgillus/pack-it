@@ -99,8 +99,7 @@ export class Packager {
   }
 
   private async createArtifact(): Promise<void> {
-    const fullSrcPath = this.config.fullSrcPath;
-    const nodeModulesPath = path.join(this.config.fullTmpPath, 'node_modules');
+    const fullIncludeDirPaths = this.config.fullIncludeDirPaths;
     const zipFileName = `${this.config.projectName}-${this.config.projectVersion}.zip`;
     const fullZipPath = path.join(this.config.fullArtifactPath, zipFileName);
     const zipStream = fs.createWriteStream(fullZipPath);
@@ -109,8 +108,9 @@ export class Packager {
     log.info(chalk.green(`${emoji.white_check_mark} Creating build artifact`));
 
     archive.pipe(zipStream);
-    archive.directory(fullSrcPath, this.config.srcDir);
-    archive.directory(nodeModulesPath, 'node_modules');
+    fullIncludeDirPaths.forEach((fullIncludeDirPath) => {
+      archive.directory(fullIncludeDirPath, path.basename(fullIncludeDirPath));
+    });
     archive.finalize();
   }
 }

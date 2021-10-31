@@ -14,6 +14,7 @@ jest.mock('cosmiconfig', () => {
 import { Config, PackItConfigOptions } from '../../src/utils/config';
 
 const configOptions: PackItConfigOptions = {
+  projectName: 'foo',
   stage: {
     name: 'development',
   },
@@ -21,9 +22,9 @@ const configOptions: PackItConfigOptions = {
     url: 'git@github.com:tgillus/pack-it.git',
     branch: 'main',
   },
-  tmpDir: '.foo',
-  artifactDir: 'bar',
-  srcDir: 'baz',
+  tmpDir: '.bar',
+  artifactDir: 'baz',
+  includeDirs: ['qux', 'quux'],
 };
 
 beforeEach(() => {
@@ -48,6 +49,7 @@ test('throws an error if Pack It! configuration is not found', () => {
 
 test('sets tmp, artifact, src directores to default values', () => {
   const configOptions = {
+    projectName: 'foo',
     stage: {
       name: 'development',
     },
@@ -61,25 +63,31 @@ test('sets tmp, artifact, src directores to default values', () => {
   const config = new Config();
   const expectedTmpPath = path.join(AppRootDir.get(), '.tmp');
   const expectedArtifactPath = path.join(AppRootDir.get(), 'deploy');
-  const expectedSrcPath = path.join(AppRootDir.get(), '.tmp', 'src');
+  const expectedIncludeDirPaths = [
+    path.join(AppRootDir.get(), '.tmp', 'src'),
+    path.join(AppRootDir.get(), '.tmp', 'node_modules'),
+  ];
 
   expect(config.fullTmpPath).toEqual(expectedTmpPath);
   expect(config.fullArtifactPath).toEqual(expectedArtifactPath);
-  expect(config.fullSrcPath).toEqual(expectedSrcPath);
+  expect(config.fullIncludeDirPaths).toEqual(expectedIncludeDirPaths);
 });
 
 test('does not overwrite user configured values for tmp and artifact directories', () => {
   const config = new Config();
-  const expectedTmpPath = path.join(AppRootDir.get(), '.foo');
-  const expectedArtifactPath = path.join(AppRootDir.get(), 'bar');
+  const expectedTmpPath = path.join(AppRootDir.get(), '.bar');
+  const expectedArtifactPath = path.join(AppRootDir.get(), 'baz');
 
   expect(config.fullTmpPath).toEqual(expectedTmpPath);
   expect(config.fullArtifactPath).toEqual(expectedArtifactPath);
 });
 
-test('does not overwrite user configured values for source directory', () => {
+test('does not overwrite user configured values for include directory', () => {
   const config = new Config();
-  const expectedSrcPath = path.join(config.fullTmpPath, 'baz');
+  const expectedIncludeDirPaths = [
+    path.join(AppRootDir.get(), '.bar', 'qux'),
+    path.join(AppRootDir.get(), '.bar', 'quux'),
+  ];
 
-  expect(config.fullSrcPath).toEqual(expectedSrcPath);
+  expect(config.fullIncludeDirPaths).toEqual(expectedIncludeDirPaths);
 });

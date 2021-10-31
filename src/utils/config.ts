@@ -4,6 +4,7 @@ import { cosmiconfigSync } from 'cosmiconfig';
 import * as _ from 'lodash';
 
 export interface PackItConfigOptions {
+  projectName: string;
   stage: {
     name: string;
   };
@@ -13,11 +14,10 @@ export interface PackItConfigOptions {
   };
   tmpDir: string;
   artifactDir: string;
-  srcDir: string;
+  includeDirs: string[];
 }
 
 export class Config {
-  public readonly projectName: string;
   public readonly projectVersion: string;
 
   private readonly options: PackItConfigOptions;
@@ -25,16 +25,17 @@ export class Config {
   private readonly defaultOptions = {
     tmpDir: '.tmp',
     artifactDir: 'deploy',
-    srcDir: 'src',
+    includeDirs: ['src', 'node_modules'],
   };
 
   constructor() {
-    const { name, version } = this.loadPackageConfig();
-
-    this.projectName = name;
-    this.projectVersion = version;
+    this.projectVersion = this.loadVersionFromPackage();
     this.localOptions = this.loadLocalOptions();
     this.options = this.mergeOptions();
+  }
+
+  get projectName(): string {
+    return this.options.projectName;
   }
 
   get gitUrl(): string {
@@ -53,19 +54,21 @@ export class Config {
     return path.join(AppRootDir.get(), this.options.artifactDir);
   }
 
-  get srcDir(): string {
-    return this.options.srcDir;
+  get includeDirs(): string[] {
+    return this.options.includeDirs;
   }
 
-  get fullSrcPath(): string {
-    return path.join(this.fullTmpPath, this.srcDir);
+  get fullIncludeDirPaths(): string[] {
+    return this.includeDirs.map((includeDir) =>
+      path.join(this.fullTmpPath, includeDir)
+    );
   }
 
-  private loadPackageConfig(): { name: string; version: string } {
+  private loadVersionFromPackage(): string {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const { name, version } = require(`${AppRootDir.get()}/package.json`);
+    const { version } = require(`${AppRootDir.get()}/package.json`);
 
-    return { name, version };
+    return version;
   }
 
   private loadLocalOptions(): PackItConfigOptions {
