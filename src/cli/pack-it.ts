@@ -10,4 +10,4 @@ log.info(
   })
 );
 
-program.parseAsync(process.argv);
+program.parseAsync();
