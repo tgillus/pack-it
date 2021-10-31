@@ -1,15 +1,15 @@
 import { Command } from 'commander';
-import { Packager } from '../packager';
+import { Packer } from '../packer';
 import { Config } from '../utils/config';
 import { Pack } from './commands/pack';
 import { Clean } from './commands/clean';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { version } = require('../../package.json');
-const packager = new Packager(new Config());
+const packer = new Packer(new Config());
 
-const pack = new Pack(packager);
-const clean = new Clean(packager);
+const pack = new Pack(packer);
+const clean = new Clean(packer);
 
 const program = new Command();
 program.version(version);

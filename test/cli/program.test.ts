@@ -10,14 +10,14 @@ jest.mock('../../src/utils/log', () => {
 });
 
 import { program } from '../../src/cli/program';
-import { Packager } from '../../src/packager';
+import { Packer } from '../../src/packer';
 
 afterEach(() => {
   jest.clearAllMocks();
 });
 
 test('kicks off the clean subcommand', async () => {
-  const spy = jest.spyOn(Packager.prototype, 'clean');
+  const spy = jest.spyOn(Packer.prototype, 'clean');
   await program.parseAsync(['node', 'pack-it', 'clean']);
 
   expect(spy).toBeCalledTimes(1);
@@ -25,7 +25,7 @@ test('kicks off the clean subcommand', async () => {
 
 test('logs errors that are thrown from clean subcommand', async () => {
   const error = new Error('foo');
-  jest.spyOn(Packager.prototype, 'clean').mockRejectedValue(error);
+  jest.spyOn(Packer.prototype, 'clean').mockRejectedValue(error);
 
   await program.parseAsync(['node', 'pack-it', 'clean']);
 
@@ -33,14 +33,14 @@ test('logs errors that are thrown from clean subcommand', async () => {
 });
 
 test('kicks off the pack subcommand', async () => {
-  const spy = jest.spyOn(Packager.prototype, 'pack');
+  const spy = jest.spyOn(Packer.prototype, 'pack');
   await program.parseAsync(['node', 'pack-it', 'pack']);
 
   expect(spy).toBeCalledTimes(1);
 });
 
 test('kicks off the pack subcommand as the default command', async () => {
-  const spy = jest.spyOn(Packager.prototype, 'pack');
+  const spy = jest.spyOn(Packer.prototype, 'pack');
   await program.parseAsync(['node', 'pack-it']);
 
   expect(spy).toBeCalledTimes(1);
@@ -48,7 +48,7 @@ test('kicks off the pack subcommand as the default command', async () => {
 
 test('logs errors that are thrown from pack subcommand', async () => {
   const error = new Error('foo');
-  jest.spyOn(Packager.prototype, 'pack').mockRejectedValue(error);
+  jest.spyOn(Packer.prototype, 'pack').mockRejectedValue(error);
 
   await program.parseAsync(['node', 'pack-it', 'pack']);
 

@@ -8,7 +8,7 @@ jest.mock('../src/utils/log');
 import fs, { WriteStream } from 'fs';
 import path from 'path';
 import { PassThrough } from 'stream';
-import { Packager } from '../src/packager';
+import { Packer } from '../src/packer';
 import { Config } from '../src/utils/config';
 
 beforeEach(() => {
@@ -22,9 +22,9 @@ beforeEach(() => {
 
 test('removes build directories', async () => {
   const config = new Config();
-  const packager = new Packager(config);
+  const packer = new Packer(config);
 
-  await packager.clean();
+  await packer.clean();
 
   expect(mockExeca).toBeCalledWith('npx', ['rimraf', config.fullTmpPath]);
   expect(mockExeca).toBeCalledWith('npx', ['rimraf', config.fullArtifactPath]);
@@ -32,21 +32,21 @@ test('removes build directories', async () => {
 
 test('packages source code into zip file', async () => {
   const config = new Config();
-  const packager = new Packager(config);
+  const packer = new Packer(config);
   const { gitUrl, gitBranch } = config;
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const { version } = require('../package.json');
   const fullZipPath = `${config.fullArtifactPath}/${config.projectName}-${version}.zip`;
 
-  const packagerCleanSpy = jest.spyOn(packager, 'clean').mockResolvedValue();
+  const packerCleanSpy = jest.spyOn(packer, 'clean').mockResolvedValue();
   const mockWriteStream: unknown = new PassThrough();
   const fsCreateWriteStreamSpy = jest
     .spyOn(fs, 'createWriteStream')
     .mockReturnValue(mockWriteStream as WriteStream);
 
-  await packager.pack();
+  await packer.pack();
 
-  expect(packagerCleanSpy).toBeCalledTimes(1);
+  expect(packerCleanSpy).toBeCalledTimes(1);
   expect(mockExeca).toBeCalledWith('mkdir', ['-p', config.fullTmpPath]);
   expect(mockExeca).toBeCalledWith('git', [
     'clone',

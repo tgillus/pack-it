@@ -7,7 +7,7 @@ import fs from 'fs';
 import archiver from 'archiver';
 import { emoji } from 'node-emoji';
 
-export class Packager {
+export class Packer {
   constructor(private readonly config: Config) {}
 
   async clean(): Promise<void> {
