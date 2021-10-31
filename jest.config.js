@@ -2,7 +2,17 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   modulePathIgnorePatterns: ['<rootDir>/.tmp/', '<rootDir>/lib/'],
-  testPathIgnorePatterns: ['<rootDir>/.tmp/'],
+  testPathIgnorePatterns: [
+    '<rootDir>/.tmp/',
+    '<rootDir>/lib/',
+    '<rootDir>/node_modules/',
+  ],
+  collectCoverageFrom: ['<rootDir>/src/**/*.ts'],
+  coveragePathIgnorePatterns: [
+    '<rootDir>/.tmp/',
+    '<rootDir>/lib/',
+    '<rootDir>/node_modules/',
+  ],
   coverageThreshold: {
     global: {
       branches: 0,

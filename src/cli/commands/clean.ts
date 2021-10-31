@@ -1,7 +1,7 @@
 import { Command } from 'commander';
-import { Packager } from '../../packager';
-import { PackItCommand } from '../pack-it';
 import { log } from '../../utils/log';
+import { Packager } from '../../packager';
+import { PackItCommand } from './pack-it-command';
 
 export class Clean implements PackItCommand {
   public readonly command: Command;

@@ -10,10 +10,25 @@ import { emoji } from 'node-emoji';
 export class Packager {
   constructor(private readonly config: Config) {}
 
-  async pack(): Promise<void> {
-    log.info(chalk.green(`${emoji.white_check_mark} Packaging project`));
+  async clean(): Promise<void> {
+    log.info(chalk.green(`${emoji.rainbow} Cleaning project`));
+    log.info(
+      chalk.green(`${emoji.white_check_mark} Removing tmp and artifact paths`)
+    );
 
+    await Promise.all([
+      execa('npx', ['rimraf', this.config.fullTmpPath]),
+      execa('npx', ['rimraf', this.config.fullArtifactPath]),
+    ]);
+
+    log.info(chalk.green(`${emoji[100]} Cleaning complete`));
+  }
+
+  async pack(): Promise<void> {
     await this.clean();
+
+    log.info(chalk.green(`${emoji.rainbow} Packing project`));
+
     await this.mkTmpDir();
     await this.clone();
     await this.installAllDependencies();
@@ -23,22 +38,7 @@ export class Packager {
     await this.mkArtifactDir();
     await this.createArtifact();
 
-    log.info(chalk.green(`${emoji[100]} Packaging complete`));
-  }
-
-  async clean(): Promise<void> {
-    log.info(
-      chalk.green(
-        `${emoji.white_check_mark} Removing tmp build and build artifact paths`
-      )
-    );
-
-    await Promise.all([
-      execa('npx', ['rimraf', this.config.fullTmpPath]),
-      execa('npx', ['rimraf', this.config.fullArtifactPath]),
-    ]);
-
-    log.info(chalk.green(`${emoji[100]} Cleaning complete`));
+    log.info(chalk.green(`${emoji[100]} Packing complete`));
   }
 
   private async mkTmpDir(): Promise<void> {
