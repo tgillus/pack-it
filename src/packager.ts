@@ -7,7 +7,7 @@ import fs from 'fs';
 import archiver from 'archiver';
 
 export class Packager {
-  constructor(private readonly config: Config = new Config()) {}
+  constructor(private readonly config: Config) {}
 
   async pack(): Promise<void> {
     log.info(chalk.green('Packaging project'));
