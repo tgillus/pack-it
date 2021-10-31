@@ -15,4 +15,5 @@ module.exports = {
     url: 'git@github.com:tgillus/pack-it.git',
     branch,
   },
+  srcDir: 'lib',
 };

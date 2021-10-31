@@ -2,6 +2,6 @@ deploy
 .husky
 lib
 node_modules
-.tmp-build
+.tmp
 
 package-lock.json

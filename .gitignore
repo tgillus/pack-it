@@ -4,7 +4,7 @@ deploy
 .eslintcache
 lib
 node_modules
-.tmp-build
+.tmp
 
 log*
 npm-debug.log*

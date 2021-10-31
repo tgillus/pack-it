@@ -21,11 +21,14 @@ const configOptions: PackItConfigOptions = {
     url: 'git@github.com:tgillus/pack-it.git',
     branch: 'main',
   },
+  tmpDir: '.foo',
+  artifactDir: 'bar',
+  srcDir: 'baz',
 };
 
 beforeEach(() => {
   jest.clearAllMocks();
-  mockExplorer.search.mockReturnValue(configOptions);
+  mockExplorer.search.mockReturnValue({ config: configOptions });
 });
 
 test('loads Pack It! configuration', () => {
@@ -43,16 +46,40 @@ test('throws an error if Pack It! configuration is not found', () => {
   }).toThrowError('Pack It! configuration not found');
 });
 
-test('sets tmp build directory to default value', () => {
-  const config = new Config();
-  const expectedPath = path.join(AppRootDir.get(), '.tmp-build');
+test('sets tmp, artifact, source directores to default values', () => {
+  const configOptions = {
+    stage: {
+      name: 'development',
+    },
+    git: {
+      url: 'git@github.com:tgillus/pack-it.git',
+      branch: 'main',
+    },
+  };
+  mockExplorer.search.mockReturnValue({ config: configOptions });
 
-  expect(config.tmpBuildPath()).toEqual(expectedPath);
+  const config = new Config();
+  const expectedTmpPath = path.join(AppRootDir.get(), '.tmp');
+  const expectedArtifactPath = path.join(AppRootDir.get(), 'deploy');
+  const expectedSrcPath = path.join(AppRootDir.get(), '.tmp', 'src');
+
+  expect(config.fullTmpPath).toEqual(expectedTmpPath);
+  expect(config.fullArtifactPath).toEqual(expectedArtifactPath);
+  expect(config.fullSrcPath).toEqual(expectedSrcPath);
 });
 
-test('sets artifact build path to default value', () => {
+test('does not overwrite user configured values for tmp and artifact directories', () => {
   const config = new Config();
-  const expectedPath = path.join(AppRootDir.get(), 'deploy');
+  const expectedTmpPath = path.join(AppRootDir.get(), '.foo');
+  const expectedArtifactPath = path.join(AppRootDir.get(), 'bar');
 
-  expect(config.artifactBuildPath()).toEqual(expectedPath);
+  expect(config.fullTmpPath).toEqual(expectedTmpPath);
+  expect(config.fullArtifactPath).toEqual(expectedArtifactPath);
+});
+
+test('does not overwrite user configured values for source directory', () => {
+  const config = new Config();
+  const expectedSrcPath = path.join(config.fullTmpPath, 'baz');
+
+  expect(config.fullSrcPath).toEqual(expectedSrcPath);
 });

@@ -1,6 +1,7 @@
 import path from 'path';
 import AppRootDir from 'app-root-dir';
 import { cosmiconfigSync } from 'cosmiconfig';
+import * as _ from 'lodash';
 
 export interface PackItConfigOptions {
   stage: {
@@ -10,12 +11,50 @@ export interface PackItConfigOptions {
     url: string;
     branch: string;
   };
+  tmpDir: string;
+  artifactDir: string;
+  srcDir: string;
 }
 
 export class Config {
-  public readonly options: PackItConfigOptions;
+  private readonly options: PackItConfigOptions;
+  private readonly localOptions: PackItConfigOptions;
+  private readonly defaultOptions = {
+    tmpDir: '.tmp',
+    artifactDir: 'deploy',
+    srcDir: 'src',
+  };
 
   constructor() {
+    this.localOptions = this.loadLocalOptions();
+    this.options = this.mergeOptions();
+  }
+
+  get gitUrl(): string {
+    return this.options.git.url;
+  }
+
+  get gitBranch(): string {
+    return this.options.git.branch;
+  }
+
+  get fullTmpPath(): string {
+    return path.join(AppRootDir.get(), this.options.tmpDir);
+  }
+
+  get fullArtifactPath(): string {
+    return path.join(AppRootDir.get(), this.options.artifactDir);
+  }
+
+  get srcDir(): string {
+    return this.options.srcDir;
+  }
+
+  get fullSrcPath(): string {
+    return path.join(this.fullTmpPath, this.srcDir);
+  }
+
+  private loadLocalOptions(): PackItConfigOptions {
     const explorer = cosmiconfigSync('pack-it');
     const result = explorer.search();
 
@@ -23,14 +62,13 @@ export class Config {
       throw new Error('Pack It! configuration not found');
     }
 
-    this.options = result.config as PackItConfigOptions;
+    return result.config as PackItConfigOptions;
   }
 
-  tmpBuildPath(): string {
-    return path.join(AppRootDir.get(), '.tmp-build');
-  }
-
-  artifactBuildPath(): string {
-    return path.join(AppRootDir.get(), 'deploy');
+  private mergeOptions(): PackItConfigOptions {
+    return _.defaultsDeep(
+      this.localOptions,
+      this.defaultOptions
+    ) as PackItConfigOptions;
   }
 }
