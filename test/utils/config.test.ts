@@ -46,7 +46,7 @@ test('throws an error if Pack It! configuration is not found', () => {
   }).toThrowError('Pack It! configuration not found');
 });
 
-test('sets tmp, artifact, source directores to default values', () => {
+test('sets tmp, artifact, src directores to default values', () => {
   const configOptions = {
     stage: {
       name: 'development',

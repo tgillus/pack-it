@@ -17,6 +17,9 @@ export interface PackItConfigOptions {
 }
 
 export class Config {
+  public readonly projectName: string;
+  public readonly projectVersion: string;
+
   private readonly options: PackItConfigOptions;
   private readonly localOptions: PackItConfigOptions;
   private readonly defaultOptions = {
@@ -26,6 +29,10 @@ export class Config {
   };
 
   constructor() {
+    const { name, version } = this.loadPackageConfig();
+
+    this.projectName = name;
+    this.projectVersion = version;
     this.localOptions = this.loadLocalOptions();
     this.options = this.mergeOptions();
   }
@@ -52,6 +59,13 @@ export class Config {
 
   get fullSrcPath(): string {
     return path.join(this.fullTmpPath, this.srcDir);
+  }
+
+  private loadPackageConfig(): { name: string; version: string } {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const { name, version } = require(`${AppRootDir.get()}/package.json`);
+
+    return { name, version };
   }
 
   private loadLocalOptions(): PackItConfigOptions {

@@ -1,17 +1,5 @@
 const mockExeca = jest.fn();
 const mockArchiver = jest.fn();
-// const mockArchiver = jest.fn(() => {
-//   return {
-//     directory: jest.fn(),
-//     finalize: jest.fn(),
-//     pipe: jest.fn(),
-//   };
-// });
-// const mockArchiver = {
-//   directory: jest.fn(),
-//   finalize: jest.fn(),
-//   pipe: jest.fn(),
-// };
 
 jest.mock('execa', () => mockExeca);
 jest.mock('archiver', () => mockArchiver);
@@ -46,8 +34,11 @@ test('packages source code into zip file', async () => {
   const config = new Config();
   const packager = new Packager(config);
   const { gitUrl, gitBranch } = config;
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const { name, version } = require('../package.json');
+  const fullZipPath = `${config.fullArtifactPath}/${name}-${version}.zip`;
 
-  const packagerCleanSpy = jest.spyOn(packager, 'clean');
+  const packagerCleanSpy = jest.spyOn(packager, 'clean').mockResolvedValue();
   const mockWriteStream: unknown = new PassThrough();
   const fsCreateWriteStreamSpy = jest
     .spyOn(fs, 'createWriteStream')
@@ -56,8 +47,6 @@ test('packages source code into zip file', async () => {
   await packager.pack();
 
   expect(packagerCleanSpy).toBeCalledTimes(1);
-  expect(mockExeca).toBeCalledWith('npx', ['rimraf', config.fullTmpPath]);
-  expect(mockExeca).toBeCalledWith('npx', ['rimraf', config.fullArtifactPath]);
   expect(mockExeca).toBeCalledWith('mkdir', ['-p', config.fullTmpPath]);
   expect(mockExeca).toBeCalledWith('git', [
     'clone',
@@ -79,7 +68,7 @@ test('packages source code into zip file', async () => {
     cwd: config.fullTmpPath,
   });
 
-  expect(fsCreateWriteStreamSpy).toBeCalledTimes(1);
+  expect(fsCreateWriteStreamSpy).toBeCalledWith(fullZipPath);
   expect(mockExeca).toBeCalledWith('mkdir', ['-p', config.fullArtifactPath]);
   expect(mockArchiver).toBeCalledWith('zip');
   expect(mockArchiver().pipe).toBeCalledWith(mockWriteStream);
@@ -92,18 +81,4 @@ test('packages source code into zip file', async () => {
     'node_modules'
   );
   expect(mockArchiver().finalize).toBeCalledTimes(1);
-});
-
-test('creates artifact build directory', async () => {
-  const config = new Config();
-  const packager = new Packager(config);
-  const mockStream: unknown = new PassThrough();
-  const spy = jest
-    .spyOn(fs, 'createWriteStream')
-    .mockReturnValue(mockStream as WriteStream);
-
-  await packager.pack();
-
-  expect(spy).toBeCalledTimes(1);
-  expect(mockExeca).toBeCalledWith('mkdir', ['-p', config.fullArtifactPath]);
 });
