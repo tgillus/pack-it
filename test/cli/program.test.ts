@@ -9,15 +9,16 @@ jest.mock('../../src/utils/log', () => {
   };
 });
 
-import { program } from '../../src/cli/program';
+import { Cleaner } from '../../src/cleaner';
 import { Packer } from '../../src/packer';
+import { program } from '../../src/cli/program';
 
 afterEach(() => {
   jest.clearAllMocks();
 });
 
 test('kicks off the clean subcommand', async () => {
-  const spy = jest.spyOn(Packer.prototype, 'clean');
+  const spy = jest.spyOn(Cleaner.prototype, 'clean');
   await program.parseAsync(['node', 'pack-it', 'clean']);
 
   expect(spy).toBeCalledTimes(1);
@@ -25,7 +26,7 @@ test('kicks off the clean subcommand', async () => {
 
 test('logs errors that are thrown from clean subcommand', async () => {
   const error = new Error('foo');
-  jest.spyOn(Packer.prototype, 'clean').mockRejectedValue(error);
+  jest.spyOn(Cleaner.prototype, 'clean').mockRejectedValue(error);
 
   await program.parseAsync(['node', 'pack-it', 'clean']);
 

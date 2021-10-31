@@ -1,6 +1,6 @@
-import path from 'path';
 import AppRootDir from 'app-root-dir';
 import { cosmiconfigSync } from 'cosmiconfig';
+import path from 'path';
 import * as _ from 'lodash';
 
 export interface PackItConfigOptions {

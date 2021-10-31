@@ -1,15 +1,22 @@
-const mockExeca = jest.fn();
 const mockArchiver = jest.fn();
+const mockExeca = jest.fn();
 
-jest.mock('execa', () => mockExeca);
 jest.mock('archiver', () => mockArchiver);
+jest.mock('execa', () => mockExeca);
 jest.mock('../src/utils/log');
 
 import fs, { WriteStream } from 'fs';
 import path from 'path';
 import { PassThrough } from 'stream';
+import { Cleaner } from '../src/cleaner';
 import { Packer } from '../src/packer';
 import { Config } from '../src/utils/config';
+
+const getPackageVersion = () => {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const { version } = require('../package.json');
+  return version;
+};
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -20,33 +27,23 @@ beforeEach(() => {
   });
 });
 
-test('removes build directories', async () => {
-  const config = new Config();
-  const packer = new Packer(config);
-
-  await packer.clean();
-
-  expect(mockExeca).toBeCalledWith('npx', ['rimraf', config.fullTmpPath]);
-  expect(mockExeca).toBeCalledWith('npx', ['rimraf', config.fullArtifactPath]);
-});
-
 test('packages source code into zip file', async () => {
   const config = new Config();
-  const packer = new Packer(config);
+  const cleaner = new Cleaner(config);
+  const packer = new Packer(config, cleaner);
   const { gitUrl, gitBranch } = config;
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const { version } = require('../package.json');
+  const version = getPackageVersion();
   const fullZipPath = `${config.fullArtifactPath}/${config.projectName}-${version}.zip`;
 
-  const packerCleanSpy = jest.spyOn(packer, 'clean').mockResolvedValue();
+  const cleanSpy = jest.spyOn(cleaner, 'clean').mockResolvedValue();
   const mockWriteStream: unknown = new PassThrough();
-  const fsCreateWriteStreamSpy = jest
+  const createWriteStreamSpy = jest
     .spyOn(fs, 'createWriteStream')
     .mockReturnValue(mockWriteStream as WriteStream);
 
   await packer.pack();
 
-  expect(packerCleanSpy).toBeCalledTimes(1);
+  expect(cleanSpy).toBeCalledTimes(1);
   expect(mockExeca).toBeCalledWith('mkdir', ['-p', config.fullTmpPath]);
   expect(mockExeca).toBeCalledWith('git', [
     'clone',
@@ -68,7 +65,7 @@ test('packages source code into zip file', async () => {
     cwd: config.fullTmpPath,
   });
 
-  expect(fsCreateWriteStreamSpy).toBeCalledWith(fullZipPath);
+  expect(createWriteStreamSpy).toBeCalledWith(fullZipPath);
   expect(mockExeca).toBeCalledWith('mkdir', ['-p', config.fullArtifactPath]);
   expect(mockArchiver).toBeCalledWith('zip');
   expect(mockArchiver().pipe).toBeCalledWith(mockWriteStream);

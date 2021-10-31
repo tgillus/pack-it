@@ -1,5 +1,5 @@
-import path from 'path';
 import AppRootDir from 'app-root-dir';
+import path from 'path';
 
 const mockExplorer = {
   search: jest.fn(),
