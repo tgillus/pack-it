@@ -1,7 +1,8 @@
-deploy
-.husky
-lib
-node_modules
-.tmp
+/coverage
+/deploy
+/.husky
+/lib
+/node_modules
+/.tmp
 
 package-lock.json

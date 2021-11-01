@@ -1,5 +1,5 @@
-deploy
-.husky
-lib
-node_modules
-.tmp
+/deploy
+/.husky
+/lib
+/node_modules
+/.tmp
