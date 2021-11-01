@@ -7,7 +7,7 @@
     "type": "git",
     "url": "git@github.com:tgillus/pack-it.git"
   },
-  "license": "ISC",
+  "license": "MIT",
   "bin": {
     "pack-it": "./lib/bin/pack-it"
   },
