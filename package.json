@@ -1,7 +1,7 @@
 {
   "name": "@triviumsoftware/pack-it",
   "version": "0.4.0",
-  "description": "A library used to package source code as a ZIP file.",
+  "description": "Pack It! is a packager that bundles source code into a zip file.",
   "author": "Tramaine L. Gillus",
   "repository": {
     "type": "git",
