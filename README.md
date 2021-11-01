@@ -1,5 +1,7 @@
 # Pack It!
 
+Pack It! is a packager that bundles source code within a standard Node.js project into a zip file.
+
 [![Build Status](https://app.travis-ci.com/tgillus/pack-it.svg?branch=main)](https://app.travis-ci.com/tgillus/pack-it)
 [![Coverage Status](https://coveralls.io/repos/github/tgillus/pack-it/badge.svg?branch=main)](https://coveralls.io/github/tgillus/pack-it?branch=main)
 [![GitHub version](https://img.shields.io/github/package-json/v/tgillus/pack-it)](https://github.com/tgillus/pack-it#readme)
