@@ -16,6 +16,15 @@
   "files": [
     "/lib"
   ],
+  "keywords": [
+    "build",
+    "build-tool",
+    "bundler",
+    "package",
+    "packager",
+    "packaging",
+    "zip"
+  ],
   "scripts": {
     "barrels": "barrelsby -c barrelsby.json && npm run format",
     "build": "npm run clean && npm run barrels && tsc && npm run copy-files",
