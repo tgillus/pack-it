@@ -34,7 +34,7 @@ Ensure the following requirements are met prior to usage:
 
 ### Create Configuration File
 
-Create a config file named `pack-it.config.js` in the project root directory. The following is an example with all of the configurable settings:
+Pack It! looks for a config file named `pack-it.config.js` in the project's root directory. The following is an example with all of the configurable settings:
 
 ```javascript
 module.exports = {
@@ -54,19 +54,19 @@ module.exports = {
 | Setting       | Description                                            | Required | Default                   |
 | ------------- | ------------------------------------------------------ | -------- | ------------------------- |
 | `projectName` | Name of the project. Used in the zip file name.        | true     |                           |
-| `git.url`     | Repo whose source code is clone and zip.               | true     |                           |
-| `git.branch`  | Branch of the repo that is checkout when cloned.       | true     |                           |
+| `git.url`     | Repo whose source code is cloned and zipped.           | true     |                           |
+| `git.branch`  | Branch of the repo that is checked out when cloned.    | true     |                           |
 | `tmpDir`      | Directory where the repo is cloned.                    | false    | `'.tmp'`                  |
-| `artifactDir` | Directory where zip file that is produce is stored.    | false    | `'deploy'`                |
+| `artifactDir` | Directory where this produced zip file is stored.      | false    | `'deploy'`                |
 | `includeDirs` | Array of directorys that are included in the zip file. | false    | `['src', 'node_modules']` |
 
 ### Commands
 
-| Setting             | Description                                 |
-| ------------------- | ------------------------------------------- |
-| `npx pack-it`       | Bundle the project as a zip file.           |
-| `npx pack-it pack`  | Bundle the project as a zip file.           |
-| `npx pack-it clean` | Remove temp and build artifact directories. |
+| Setting             | Description                        |
+| ------------------- | ---------------------------------- |
+| `npx pack-it`       | Bundle the project as a zip file.  |
+| `npx pack-it pack`  | Bundle the project as a zip file.  |
+| `npx pack-it clean` | Delete `tmpDir` and `artifactDir`. |
 
 Pack It! expects an NPM script `build` to be defined in `package.json`. In other words, Pack It! executes the following command to build the project:
 
@@ -74,7 +74,7 @@ Pack It! expects an NPM script `build` to be defined in `package.json`. In other
 npm run build
 ```
 
-Pack It! installs an executable named `pack-it`. Run the following in the root of the project to bundle a project as a zip file:
+Pack It! installs an executable named `pack-it`. Run the following in the root of the project to bundle it as a zip file:
 
 ```bash
 npx pack-it
@@ -86,11 +86,11 @@ or
 npx pack-it pack
 ```
 
-> NOTE: Pack It! clones a refresh copy of the project's reposistory prior to building and bundling the project. It installs all of the project's dependencies after it's cloned in order to build the project. However, only production dependencies are bundled with the zip file.
+> NOTE: Pack It! clones a fresh copy of the project's repository prior to building and bundling the project. It installs all of the project's dependencies after it's cloned in order to build the project. However, only production dependencies are bundled with the zip file.
 
 ### Clean Up Pack It! Artifacts
 
-Run the following in the root of the project to remove the temp directory and the build artifact directory:
+Run the following in the root of the project to remove `tmpDir` and `artifactDir`:
 
 ```bash
 npx pack-it clean
