@@ -62,7 +62,7 @@ module.exports = {
 
 ### Commands
 
-| Setting             | Description                        |
+| Command             | Description                        |
 | ------------------- | ---------------------------------- |
 | `npx pack-it`       | Bundle the project as a zip file.  |
 | `npx pack-it pack`  | Bundle the project as a zip file.  |
