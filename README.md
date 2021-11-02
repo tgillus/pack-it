@@ -9,6 +9,13 @@ Pack It! is a packager that bundles source code within a standard Node.js projec
 [![License](https://img.shields.io/npm/l/@triviumsoftware/pack-it)](https://github.com/tgillus/pack-it/blob/main/LICENSE)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
+## Prerequisites
+
+Ensure the following requirements are met prior to usage:
+
+- Node.js 12 or 14 installed
+- Git installed
+
 ## Installation
 
 Via NPM:
@@ -22,13 +29,6 @@ Via Yarn:
 ```bash
 yarn add --dev @triviumsoftware/pack-it
 ```
-
-## Prerequisites
-
-Ensure the following requirements are met prior to usage:
-
-- Node.js 12 or 14 installed
-- Git installed
 
 ## Usage
 
