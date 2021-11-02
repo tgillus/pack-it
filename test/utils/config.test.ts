@@ -15,9 +15,6 @@ import { Config, PackItConfigOptions } from '../../src/utils/config';
 
 const configOptions: PackItConfigOptions = {
   projectName: 'foo',
-  stage: {
-    name: 'development',
-  },
   git: {
     url: 'git@github.com:tgillus/pack-it.git',
     branch: 'main',
@@ -50,9 +47,6 @@ test('throws an error if Pack It! configuration is not found', () => {
 test('sets tmp, artifact, src directores to default values', () => {
   const configOptions = {
     projectName: 'foo',
-    stage: {
-      name: 'development',
-    },
     git: {
       url: 'git@github.com:tgillus/pack-it.git',
       branch: 'main',

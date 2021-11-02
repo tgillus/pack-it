@@ -5,9 +5,6 @@ import * as _ from 'lodash';
 
 export interface PackItConfigOptions {
   projectName: string;
-  stage: {
-    name: string;
-  };
   git: {
     url: string;
     branch: string;

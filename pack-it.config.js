@@ -8,9 +8,6 @@ const branch = process.env.BRANCH || stages[stageName].defaultBranch;
 
 module.exports = {
   projectName: 'pack-it',
-  stage: {
-    name: stageName,
-  },
   git: {
     url: 'git@github.com:tgillus/pack-it.git',
     branch,
