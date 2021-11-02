@@ -68,6 +68,8 @@ module.exports = {
 | `npx pack-it pack`  | Bundle the project as a zip file.  |
 | `npx pack-it clean` | Delete `tmpDir` and `artifactDir`. |
 
+### Pack
+
 Pack It! expects an NPM script `build` to be defined in `package.json`. In other words, Pack It! executes the following command to build the project:
 
 ```bash
@@ -88,7 +90,7 @@ npx pack-it pack
 
 > NOTE: Pack It! clones a fresh copy of the project's repository prior to building and bundling the project. It installs all of the project's dependencies after it's cloned in order to build the project. However, only production dependencies are bundled with the zip file.
 
-### Clean Up Pack It! Artifacts
+### Clean Up
 
 Run the following in the root of the project to remove `tmpDir` and `artifactDir`:
 
