@@ -32,7 +32,7 @@ Ensure the following requirements are met prior to usage:
 
 ## Usage
 
-### Create Configuration File
+### Configuration File
 
 Pack It! looks for a config file named `pack-it.config.js` in the project's root directory. The following is an example with all of the configurable settings:
 
