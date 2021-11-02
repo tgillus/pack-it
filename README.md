@@ -51,14 +51,14 @@ module.exports = {
 
 ### Configuration Settings
 
-| Setting       | Description                                            | Required | Default               |
-| ------------- | ------------------------------------------------------ | -------- | --------------------- |
-| `projectName` | Name of the project. Used in the zip file name.        | `true`   |                       |
-| `git.url`     | Repo whose source code is clone and zip.               | `true`   |                       |
-| `git.branch`  | Branch of the repo that is checkout when cloned.       | `true`   |                       |
-| `tmpDir`      | Directory where the repo is cloned.                    | `false`  | `.tmp`                |
-| `artifactDir` | Directory where zip file that is produce is stored.    | `false`  | `deploy`              |
-| `includeDirs` | Array of directorys that are included in the zip file. | `false`  | `[src, node_modules]` |
+| Setting       | Description                                            | Required | Default                   |
+| ------------- | ------------------------------------------------------ | -------- | ------------------------- |
+| `projectName` | Name of the project. Used in the zip file name.        | true     |                           |
+| `git.url`     | Repo whose source code is clone and zip.               | true     |                           |
+| `git.branch`  | Branch of the repo that is checkout when cloned.       | true     |                           |
+| `tmpDir`      | Directory where the repo is cloned.                    | false    | `'.tmp'`                  |
+| `artifactDir` | Directory where zip file that is produce is stored.    | false    | `'deploy'`                |
+| `includeDirs` | Array of directorys that are included in the zip file. | false    | `['src', 'node_modules']` |
 
 ### Commands
 
