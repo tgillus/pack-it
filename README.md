@@ -70,7 +70,7 @@ module.exports = {
 
 ### Pack
 
-Pack It! expects an NPM script `build` to be defined in `package.json`. In other words, Pack It! executes the following command to build the project:
+Pack It! expects an NPM script named `build` to be defined in `package.json`. In other words, Pack It! executes the following command to build the project:
 
 ```bash
 npm run build
