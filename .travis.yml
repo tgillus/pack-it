@@ -1,4 +1,5 @@
-sudo: false
+os: linux
+dist: xenial
 language: node_js
 node_js:
   - '12'
@@ -11,6 +12,6 @@ cache:
     - node_modules
 install:
   - npm install
-scripts:
+script:
   - npm test
   - npm run coveralls
