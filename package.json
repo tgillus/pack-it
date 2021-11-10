@@ -1,6 +1,6 @@
 {
   "name": "@triviumsoftware/pack-it",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Pack It! is a packager that bundles source code within a standard Node.js project into a zip file.",
   "author": "Tramaine L. Gillus",
   "repository": {
