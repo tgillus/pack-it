@@ -16,16 +16,18 @@ jest.mock('archiver', () => {
 });
 jest.mock('execa');
 jest.mock('fs');
+jest.mock('stream');
+jest.mock('../src/cleaner');
 jest.mock('../src/utils/config', () => {
   const Config = jest.fn().mockReturnValue({
-    projectName: 'foo',
+    projectName: 'pack-tt',
     projectVersion: '1.0.0',
-    gitUrl: 'bar',
+    gitUrl: 'git@github.com:tgillus/pack-it.git',
     gitBranch: 'main',
-    fullTmpPath: 'foo',
-    fullArtifactPath: 'foo',
-    includeDirs: ['foo'],
-    fullIncludeDirPaths: ['foo'],
+    fullTmpPath: '.tmp',
+    fullArtifactPath: '/foo/bar/deploy',
+    includeDirs: ['src', 'node_modules'],
+    fullIncludeDirPaths: ['/foo/bar/src', '/foo/bar/node_modules'],
   });
 
   return {
@@ -42,11 +44,10 @@ test('kicks off cleaner', async () => {
   const config = new Config();
   const cleaner = new Cleaner(config);
   const packer = new Packer(config, cleaner);
-  const cleanSpy = jest.spyOn(cleaner, 'clean');
 
   await packer.pack();
 
-  expect(cleanSpy).toBeCalledTimes(1);
+  expect(cleaner.clean).toBeCalledTimes(1);
 });
 
 test('makes tmp directory and clones project', async () => {
@@ -97,7 +98,18 @@ test('removes dependencies and install production dependencies', async () => {
   });
 });
 
-test('bundles project into zip file', async () => {
+test('creates artifact directory and instantiates a zip archiver', async () => {
+  const config = new Config();
+  const cleaner = new Cleaner(config);
+  const packer = new Packer(config, cleaner);
+
+  await packer.pack();
+
+  expect(execa).toBeCalledWith('mkdir', ['-p', config.fullArtifactPath]);
+  expect(archiver).toBeCalledWith('zip');
+});
+
+test('writes contents to zip archiver', async () => {
   const config = new Config();
   const cleaner = new Cleaner(config);
   const packer = new Packer(config, cleaner);
@@ -106,14 +118,11 @@ test('bundles project into zip file', async () => {
   const createWriteStreamSpy = jest
     .spyOn(fs, 'createWriteStream')
     .mockReturnValue(mockWriteStream as WriteStream);
+  const archive = archiver('zip');
 
   await packer.pack();
 
   expect(createWriteStreamSpy).toBeCalledWith(fullZipPath);
-  expect(execa).toBeCalledWith('mkdir', ['-p', config.fullArtifactPath]);
-  expect(archiver).toBeCalledWith('zip');
-
-  const archive = archiver('zip');
   expect(archive.pipe).toBeCalledWith(mockWriteStream);
   config.fullIncludeDirPaths.forEach((fullIncludeDirPath) => {
     expect(archive.directory).toBeCalledWith(

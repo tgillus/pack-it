@@ -41,6 +41,24 @@ test('throws an error if Pack It! configuration is not found', () => {
   }).toThrowError('Pack It! configuration not found');
 });
 
+test('returns the project name', () => {
+  const config = new Config();
+
+  expect(config.projectName).toEqual('foo');
+});
+
+test('returns project Git URL', () => {
+  const config = new Config();
+
+  expect(config.gitUrl).toEqual('git@github.com:tgillus/pack-it.git');
+});
+
+test('returns Git branch', () => {
+  const config = new Config();
+
+  expect(config.gitBranch).toEqual('main');
+});
+
 test('sets tmp, artifact, src directores to default values', () => {
   const packItConfig = {
     projectName: 'foo',
