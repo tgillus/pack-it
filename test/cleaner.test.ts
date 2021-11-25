@@ -1,10 +1,9 @@
-const mockExeca = jest.fn();
-
-jest.mock('execa', () => mockExeca);
-jest.mock('../src/utils/log');
-
+import execa from 'execa';
 import { Cleaner } from '../src/cleaner';
 import { Config } from '../src/utils/config';
+
+jest.mock('execa');
+jest.mock('../src/utils/log');
 
 test('removes build directories', async () => {
   const config = new Config();
@@ -12,6 +11,6 @@ test('removes build directories', async () => {
 
   await cleaner.clean();
 
-  expect(mockExeca).toBeCalledWith('npx', ['rimraf', config.fullTmpPath]);
-  expect(mockExeca).toBeCalledWith('npx', ['rimraf', config.fullArtifactPath]);
+  expect(execa).toBeCalledWith('npx', ['rimraf', config.fullTmpPath]);
+  expect(execa).toBeCalledWith('npx', ['rimraf', config.fullArtifactPath]);
 });
