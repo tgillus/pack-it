@@ -1,43 +1,40 @@
 import AppRootDir from 'app-root-dir';
+import { cosmiconfigSync } from 'cosmiconfig';
 import path from 'path';
-
-const mockExplorer = {
-  search: jest.fn(),
-};
-const mockCosmiconfig = {
-  cosmiconfigSync: jest.fn().mockReturnValue(mockExplorer),
-};
-jest.mock('cosmiconfig', () => {
-  return mockCosmiconfig;
-});
-
 import { Config, PackItConfigOptions } from '../../src/utils/config';
 
-const configOptions: PackItConfigOptions = {
-  projectName: 'foo',
-  git: {
-    url: 'git@github.com:tgillus/pack-it.git',
-    branch: 'main',
-  },
-  tmpDir: '.bar',
-  artifactDir: 'baz',
-  includeDirs: ['qux', 'quux'],
-};
+jest.mock('cosmiconfig', () => {
+  const packItConfig: PackItConfigOptions = {
+    projectName: 'foo',
+    git: {
+      url: 'git@github.com:tgillus/pack-it.git',
+      branch: 'main',
+    },
+    tmpDir: '.bar',
+    artifactDir: 'baz',
+    includeDirs: ['qux', 'quux'],
+  };
+
+  return {
+    cosmiconfigSync: jest.fn().mockReturnValue({
+      search: jest.fn().mockReturnValue({ config: packItConfig, filepath: '' }),
+    }),
+  };
+});
 
 beforeEach(() => {
   jest.clearAllMocks();
-  mockExplorer.search.mockReturnValue({ config: configOptions });
 });
 
 test('loads Pack It! configuration', () => {
   new Config();
 
-  expect(mockCosmiconfig.cosmiconfigSync).toBeCalledWith('pack-it');
-  expect(mockExplorer.search).toBeCalledTimes(1);
+  expect(cosmiconfigSync).toBeCalledWith('pack-it');
 });
 
 test('throws an error if Pack It! configuration is not found', () => {
-  mockExplorer.search.mockReturnValue(null);
+  const explorer = cosmiconfigSync('pack-it');
+  jest.spyOn(explorer, 'search').mockReturnValueOnce(null);
 
   expect(() => {
     new Config();
@@ -45,14 +42,17 @@ test('throws an error if Pack It! configuration is not found', () => {
 });
 
 test('sets tmp, artifact, src directores to default values', () => {
-  const configOptions = {
+  const packItConfig = {
     projectName: 'foo',
     git: {
       url: 'git@github.com:tgillus/pack-it.git',
       branch: 'main',
     },
   };
-  mockExplorer.search.mockReturnValue({ config: configOptions });
+  const explorer = cosmiconfigSync('pack-it');
+  jest
+    .spyOn(explorer, 'search')
+    .mockReturnValueOnce({ config: packItConfig, filepath: '' });
 
   const config = new Config();
   const expectedTmpPath = path.join(AppRootDir.get(), '.tmp');
