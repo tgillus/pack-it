@@ -1,17 +1,9 @@
-const logErrorMock = jest.fn();
-jest.mock('../../src/utils/log', () => {
-  const log = {
-    error: logErrorMock,
-  };
-
-  return {
-    log,
-  };
-});
-
 import { Cleaner } from '../../src/cleaner';
 import { Packer } from '../../src/packer';
 import { program } from '../../src/cli/program';
+import { log } from '../../src/utils/log';
+
+jest.mock('../../src/utils/log');
 
 afterEach(() => {
   jest.clearAllMocks();
@@ -30,7 +22,7 @@ test('logs errors that are thrown from clean subcommand', async () => {
 
   await program.parseAsync(['node', 'pack-it', 'clean']);
 
-  expect(logErrorMock).toBeCalledWith(error);
+  expect(log.error).toBeCalledWith(error);
 });
 
 test('kicks off the pack subcommand', async () => {
@@ -53,5 +45,5 @@ test('logs errors that are thrown from pack subcommand', async () => {
 
   await program.parseAsync(['node', 'pack-it', 'pack']);
 
-  expect(logErrorMock).toBeCalledWith(error);
+  expect(log.error).toBeCalledWith(error);
 });
