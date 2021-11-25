@@ -4,7 +4,6 @@ import { program } from '../../src/cli/program';
 
 jest.mock('../../src/cleaner');
 jest.mock('../../src/packer');
-jest.mock('../../src/utils/log');
 
 afterEach(() => {
   jest.clearAllMocks();

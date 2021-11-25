@@ -16,7 +16,6 @@ jest.mock('archiver', () => {
 });
 jest.mock('execa');
 jest.mock('fs');
-jest.mock('stream');
 jest.mock('../src/cleaner');
 jest.mock('../src/utils/config', () => {
   const Config = jest.fn().mockReturnValue({
