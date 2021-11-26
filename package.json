@@ -28,7 +28,7 @@
   "scripts": {
     "barrels": "barrelsby -c barrelsby.json && npm run format",
     "build": "npm run clean && npm run barrels && tsc && npm run copy-files",
-    "clean": "rimraf ./lib",
+    "clean": "rimraf ./lib ./coverage",
     "coveralls": "npm run test:cov && cat ./coverage/lcov.info | coveralls",
     "copy-files": "copyfiles -u 1 ./src/bin/pack-it lib",
     "format": "prettier . --write",
