@@ -1,9 +1,13 @@
 import log from 'loglevel';
 
+jest.mock('loglevel');
+
+afterEach(() => {
+  jest.clearAllMocks();
+});
+
 test('sets default log level to info', async () => {
-  const spy = jest.spyOn(log, 'setDefaultLevel');
   await import('../../src/utils/log');
 
-  expect(spy).toBeCalledTimes(1);
-  expect(spy).toBeCalledWith(log.levels.INFO);
+  expect(log.setDefaultLevel).toBeCalledWith(log.levels.INFO);
 });

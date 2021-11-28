@@ -1,9 +1,13 @@
 import AppRootDir from 'app-root-dir';
 import { cosmiconfigSync } from 'cosmiconfig';
+import { mockFn } from 'jest-mock-extended';
 import path from 'path';
+import { when } from 'jest-when';
 import { Config, PackItConfigOptions } from '../../src/utils/config';
 
-jest.mock('cosmiconfig', () => {
+jest.mock('cosmiconfig');
+
+beforeEach(() => {
   const packItConfig: PackItConfigOptions = {
     projectName: 'foo',
     git: {
@@ -15,14 +19,21 @@ jest.mock('cosmiconfig', () => {
     includeDirs: ['qux', 'quux'],
   };
 
-  return {
-    cosmiconfigSync: jest.fn().mockReturnValue({
-      search: jest.fn().mockReturnValue({ config: packItConfig, filepath: '' }),
-    }),
-  };
+  when(cosmiconfigSync)
+    .calledWith('pack-it')
+    .mockReturnValue({
+      search: mockFn().mockReturnValue({
+        config: packItConfig,
+        filepath: '/foo/bar/pack-it.config.js',
+      }),
+      load: mockFn(),
+      clearCaches: mockFn(),
+      clearLoadCache: mockFn(),
+      clearSearchCache: mockFn(),
+    });
 });
 
-beforeEach(() => {
+afterEach(() => {
   jest.clearAllMocks();
 });
 
@@ -33,8 +44,15 @@ test('loads Pack It! configuration', () => {
 });
 
 test('throws an error if Pack It! configuration is not found', () => {
-  const explorer = cosmiconfigSync('pack-it');
-  jest.spyOn(explorer, 'search').mockReturnValueOnce(null);
+  when(cosmiconfigSync)
+    .calledWith('pack-it')
+    .mockReturnValueOnce({
+      search: mockFn().mockReturnValue(null),
+      load: mockFn(),
+      clearCaches: mockFn(),
+      clearLoadCache: mockFn(),
+      clearSearchCache: mockFn(),
+    });
 
   expect(() => {
     new Config();
@@ -67,12 +85,18 @@ test('sets tmp, artifact, src directores to default values', () => {
       branch: 'main',
     },
   };
-  const explorer = cosmiconfigSync('pack-it');
-  jest
-    .spyOn(explorer, 'search')
-    .mockReturnValueOnce({ config: packItConfig, filepath: '' });
-
-  const config = new Config();
+  when(cosmiconfigSync)
+    .calledWith('pack-it')
+    .mockReturnValueOnce({
+      search: mockFn().mockReturnValue({
+        config: packItConfig,
+        filepath: '/foo/bar/pack-it.config.js',
+      }),
+      load: mockFn(),
+      clearCaches: mockFn(),
+      clearLoadCache: mockFn(),
+      clearSearchCache: mockFn(),
+    });
   const expectedTmpPath = path.join(AppRootDir.get(), '.tmp');
   const expectedArtifactPath = path.join(AppRootDir.get(), 'deploy');
   const expectedIncludeDirPaths = [
@@ -80,26 +104,30 @@ test('sets tmp, artifact, src directores to default values', () => {
     path.join(AppRootDir.get(), '.tmp', 'node_modules'),
   ];
 
+  const config = new Config();
+
   expect(config.fullTmpPath).toEqual(expectedTmpPath);
   expect(config.fullArtifactPath).toEqual(expectedArtifactPath);
   expect(config.fullIncludeDirPaths).toEqual(expectedIncludeDirPaths);
 });
 
 test('does not overwrite user configured values for tmp and artifact directories', () => {
-  const config = new Config();
   const expectedTmpPath = path.join(AppRootDir.get(), '.bar');
   const expectedArtifactPath = path.join(AppRootDir.get(), 'baz');
+
+  const config = new Config();
 
   expect(config.fullTmpPath).toEqual(expectedTmpPath);
   expect(config.fullArtifactPath).toEqual(expectedArtifactPath);
 });
 
 test('does not overwrite user configured values for include directory', () => {
-  const config = new Config();
   const expectedIncludeDirPaths = [
     path.join(AppRootDir.get(), '.bar', 'qux'),
     path.join(AppRootDir.get(), '.bar', 'quux'),
   ];
+
+  const config = new Config();
 
   expect(config.fullIncludeDirPaths).toEqual(expectedIncludeDirPaths);
 });

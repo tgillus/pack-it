@@ -1,3 +1,4 @@
+import { when } from 'jest-when';
 import { Cleaner } from '../../../src/cleaner';
 import { Pack } from '../../../src/cli/commands/pack';
 import { Packer } from '../../../src/packer';
@@ -23,9 +24,9 @@ test('logs errors that are thrown from clean subcommand', async () => {
   const config = new Config();
   const cleaner = new Cleaner(config);
   const packer = new Packer(config, cleaner);
-  const error = new Error('foo');
-  jest.spyOn(packer, 'pack').mockRejectedValueOnce(error);
   const pack = new Pack(packer);
+  const error = new Error('foo');
+  when(packer.pack).calledWith().mockRejectedValueOnce(error);
 
   await pack.command.parseAsync([]);
 

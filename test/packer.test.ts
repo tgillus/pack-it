@@ -1,59 +1,61 @@
 import archiver from 'archiver';
 import execa from 'execa';
 import fs, { WriteStream } from 'fs';
-import path from 'path';
-import { PassThrough } from 'stream';
+import { mock } from 'jest-mock-extended';
+import { mocked } from 'ts-jest/utils';
+import { when } from 'jest-when';
 import { Cleaner } from '../src/cleaner';
 import { Packer } from '../src/packer';
 import { Config } from '../src/utils/config';
 
-jest.mock('archiver', () => {
-  return jest.fn().mockReturnValue({
-    directory: jest.fn(),
-    finalize: jest.fn(),
-    pipe: jest.fn(),
-  });
-});
+jest.mock('archiver');
 jest.mock('execa');
 jest.mock('fs');
 jest.mock('../src/cleaner');
-jest.mock('../src/utils/config', () => {
-  const Config = jest.fn().mockReturnValue({
-    projectName: 'pack-tt',
+jest.mock('../src/utils/config');
+jest.mock('../src/utils/log');
+
+beforeEach(() => {
+  const mockArchiver = mock<archiver.Archiver>();
+  const mockConfig = mock<Config>({
+    projectName: 'pack-it',
     projectVersion: '1.0.0',
     gitUrl: 'git@github.com:tgillus/pack-it.git',
     gitBranch: 'main',
-    fullTmpPath: '.tmp',
+    fullTmpPath: '/foo/bar/.tmp',
     fullArtifactPath: '/foo/bar/deploy',
     includeDirs: ['src', 'node_modules'],
     fullIncludeDirPaths: ['/foo/bar/src', '/foo/bar/node_modules'],
   });
 
-  return {
-    Config,
-  };
+  when(archiver).calledWith('zip').mockReturnValue(mockArchiver);
+  when(mocked(Config)).calledWith().mockReturnValue(mockConfig);
 });
-jest.mock('../src/utils/log');
 
-beforeEach(() => {
+afterEach(() => {
   jest.clearAllMocks();
 });
 
-test('kicks off cleaner', async () => {
+const getPacker = () => {
   const config = new Config();
   const cleaner = new Cleaner(config);
-  const packer = new Packer(config, cleaner);
+
+  return new Packer(config, cleaner);
+};
+
+test('kicks off cleaner', async () => {
+  const packer = getPacker();
 
   await packer.pack();
 
-  expect(cleaner.clean).toBeCalledTimes(1);
+  expect(Cleaner.prototype.clean).toBeCalledTimes(1);
 });
 
 test('makes tmp directory and clones project', async () => {
-  const config = new Config();
-  const cleaner = new Cleaner(config);
-  const packer = new Packer(config, cleaner);
-  const { gitUrl, gitBranch, fullTmpPath } = config;
+  const packer = getPacker();
+  const gitUrl = 'git@github.com:tgillus/pack-it.git';
+  const gitBranch = 'main';
+  const fullTmpPath = '/foo/bar/.tmp';
 
   await packer.pack();
 
@@ -68,66 +70,53 @@ test('makes tmp directory and clones project', async () => {
 });
 
 test('installs dependencies and builds', async () => {
-  const config = new Config();
-  const cleaner = new Cleaner(config);
-  const packer = new Packer(config, cleaner);
+  const packer = getPacker();
+  const fullTmpPath = '/foo/bar/.tmp';
 
   await packer.pack();
 
   expect(execa).toBeCalledWith('npm', ['install'], {
-    cwd: config.fullTmpPath,
+    cwd: fullTmpPath,
   });
   expect(execa).toBeCalledWith('npm', ['run', 'build'], {
-    cwd: config.fullTmpPath,
+    cwd: fullTmpPath,
   });
 });
 
 test('removes dependencies and install production dependencies', async () => {
-  const config = new Config();
-  const cleaner = new Cleaner(config);
-  const packer = new Packer(config, cleaner);
+  const packer = getPacker();
+  const fullTmpPath = '/foo/bar/.tmp';
 
   await packer.pack();
 
   expect(execa).toBeCalledWith('rm', ['-rf', 'node_modules'], {
-    cwd: config.fullTmpPath,
+    cwd: fullTmpPath,
   });
   expect(execa).toBeCalledWith('npm', ['install', '--production'], {
-    cwd: config.fullTmpPath,
+    cwd: fullTmpPath,
   });
-});
-
-test('creates artifact directory and instantiates a zip archiver', async () => {
-  const config = new Config();
-  const cleaner = new Cleaner(config);
-  const packer = new Packer(config, cleaner);
-
-  await packer.pack();
-
-  expect(execa).toBeCalledWith('mkdir', ['-p', config.fullArtifactPath]);
-  expect(archiver).toBeCalledWith('zip');
 });
 
 test('writes contents to zip archiver', async () => {
-  const config = new Config();
-  const cleaner = new Cleaner(config);
-  const packer = new Packer(config, cleaner);
-  const fullZipPath = `${config.fullArtifactPath}/${config.projectName}-1.0.0.zip`;
-  const mockWriteStream: unknown = new PassThrough();
-  const createWriteStreamSpy = jest
-    .spyOn(fs, 'createWriteStream')
-    .mockReturnValue(mockWriteStream as WriteStream);
-  const archive = archiver('zip');
+  const packer = getPacker();
+  const fullArtifactPath = '/foo/bar/deploy';
+  const projectName = 'pack-it';
+  const fullZipPath = `${fullArtifactPath}/${projectName}-1.0.0.zip`;
+  const mockWriteStream = mock<WriteStream>();
+  const mockArchiver = mock<archiver.Archiver>();
+  when(fs.createWriteStream)
+    .calledWith(fullZipPath)
+    .mockReturnValueOnce(mockWriteStream);
+  when(archiver).calledWith('zip').mockReturnValue(mockArchiver);
 
   await packer.pack();
 
-  expect(createWriteStreamSpy).toBeCalledWith(fullZipPath);
-  expect(archive.pipe).toBeCalledWith(mockWriteStream);
-  config.fullIncludeDirPaths.forEach((fullIncludeDirPath) => {
-    expect(archive.directory).toBeCalledWith(
-      fullIncludeDirPath,
-      path.basename(fullIncludeDirPath)
-    );
-  });
-  expect(archive.finalize).toBeCalledTimes(1);
+  expect(execa).toBeCalledWith('mkdir', ['-p', fullArtifactPath]);
+  expect(mockArchiver.pipe).toBeCalledWith(mockWriteStream);
+  expect(mockArchiver.directory).toBeCalledWith('/foo/bar/src', 'src');
+  expect(mockArchiver.directory).toBeCalledWith(
+    '/foo/bar/node_modules',
+    'node_modules'
+  );
+  expect(mockArchiver.finalize).toBeCalledTimes(1);
 });
