@@ -10,6 +10,10 @@ jest.mock('../../../src/packer');
 jest.mock('../../../src/utils/config');
 jest.mock('../../../src/utils/log');
 
+afterEach(() => {
+  jest.clearAllMocks();
+});
+
 test('kicks off the packer', async () => {
   const config = new Config();
   const cleaner = new Cleaner(config);
