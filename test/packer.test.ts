@@ -3,7 +3,7 @@ import execa from 'execa';
 import fs, { WriteStream } from 'fs';
 import { mock } from 'jest-mock-extended';
 import { mocked } from 'ts-jest/utils';
-import { when } from 'jest-when';
+import { resetAllWhenMocks, when } from 'jest-when';
 import { Cleaner } from '../src/cleaner';
 import { Packer } from '../src/packer';
 import { Config } from '../src/utils/config';
@@ -33,7 +33,8 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  jest.clearAllMocks();
+  jest.resetAllMocks();
+  resetAllWhenMocks();
 });
 
 const getPacker = () => {

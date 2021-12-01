@@ -6,7 +6,7 @@ jest.mock('../../src/cleaner');
 jest.mock('../../src/packer');
 
 afterEach(() => {
-  jest.clearAllMocks();
+  jest.resetAllMocks();
 });
 
 test('kicks off the clean subcommand', async () => {

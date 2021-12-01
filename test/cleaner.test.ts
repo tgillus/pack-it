@@ -7,7 +7,7 @@ jest.mock('execa');
 jest.mock('../src/utils/log');
 
 afterEach(() => {
-  jest.clearAllMocks();
+  jest.resetAllMocks();
 });
 
 test('removes build directories', async () => {

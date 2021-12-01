@@ -2,14 +2,15 @@ import { Clean } from '../../../src/cli/commands/clean';
 import { Cleaner } from '../../../src/cleaner';
 import { Config } from '../../../src/utils/config';
 import { log } from '../../../src/utils/log';
-import { when } from 'jest-when';
+import { resetAllWhenMocks, when } from 'jest-when';
 
 jest.mock('../../../src/cleaner');
 jest.mock('../../../src/utils/config');
 jest.mock('../../../src/utils/log');
 
 afterEach(() => {
-  jest.clearAllMocks();
+  jest.resetAllMocks();
+  resetAllWhenMocks();
 });
 
 test('kicks off the cleaner', async () => {

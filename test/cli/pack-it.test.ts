@@ -5,7 +5,7 @@ jest.mock('../../src/cli/program');
 jest.mock('../../src/utils/log');
 
 afterEach(() => {
-  jest.clearAllMocks();
+  jest.resetAllMocks();
 });
 
 test('executes program', () => {

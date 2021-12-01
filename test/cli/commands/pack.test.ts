@@ -1,4 +1,4 @@
-import { when } from 'jest-when';
+import { resetAllWhenMocks, when } from 'jest-when';
 import { Cleaner } from '../../../src/cleaner';
 import { Pack } from '../../../src/cli/commands/pack';
 import { Packer } from '../../../src/packer';
@@ -11,7 +11,8 @@ jest.mock('../../../src/utils/config');
 jest.mock('../../../src/utils/log');
 
 afterEach(() => {
-  jest.clearAllMocks();
+  jest.resetAllMocks();
+  resetAllWhenMocks();
 });
 
 test('kicks off the packer', async () => {

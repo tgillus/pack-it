@@ -3,7 +3,7 @@ import log from 'loglevel';
 jest.mock('loglevel');
 
 afterEach(() => {
-  jest.clearAllMocks();
+  jest.resetAllMocks();
 });
 
 test('sets default log level to info', async () => {

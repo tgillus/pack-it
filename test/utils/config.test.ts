@@ -2,7 +2,7 @@ import AppRootDir from 'app-root-dir';
 import { cosmiconfigSync } from 'cosmiconfig';
 import { mockFn } from 'jest-mock-extended';
 import path from 'path';
-import { when } from 'jest-when';
+import { resetAllWhenMocks, when } from 'jest-when';
 import { Config, PackItConfigOptions } from '../../src/utils/config';
 
 jest.mock('cosmiconfig');
@@ -22,7 +22,7 @@ beforeEach(() => {
   when(cosmiconfigSync)
     .calledWith('pack-it')
     .mockReturnValue({
-      search: mockFn().mockReturnValue({
+      search: mockFn().calledWith().mockReturnValueOnce({
         config: packItConfig,
         filepath: '/foo/bar/pack-it.config.js',
       }),
@@ -34,7 +34,8 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  jest.clearAllMocks();
+  jest.resetAllMocks();
+  resetAllWhenMocks();
 });
 
 test('loads Pack It! configuration', () => {
@@ -47,7 +48,7 @@ test('throws an error if Pack It! configuration is not found', () => {
   when(cosmiconfigSync)
     .calledWith('pack-it')
     .mockReturnValueOnce({
-      search: mockFn().mockReturnValue(null),
+      search: mockFn().calledWith().mockReturnValueOnce(null),
       load: mockFn(),
       clearCaches: mockFn(),
       clearLoadCache: mockFn(),
