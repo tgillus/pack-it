@@ -2,7 +2,6 @@ import archiver from 'archiver';
 import execa from 'execa';
 import fs, { WriteStream } from 'fs';
 import { mock } from 'jest-mock-extended';
-import { mocked } from 'ts-jest/utils';
 import { resetAllWhenMocks, when } from 'jest-when';
 import { Cleaner } from '../src/cleaner';
 import { Packer } from '../src/packer';
@@ -17,6 +16,7 @@ jest.mock('../src/utils/log');
 
 beforeEach(() => {
   const mockArchiver = mock<archiver.Archiver>();
+  const mockedConfig = Config as jest.MockedClass<typeof Config>;
   const mockConfig = mock<Config>({
     projectName: 'pack-it',
     projectVersion: '1.0.0',
@@ -29,7 +29,7 @@ beforeEach(() => {
   });
 
   when(archiver).calledWith('zip').mockReturnValue(mockArchiver);
-  when(mocked(Config)).calledWith().mockReturnValue(mockConfig);
+  when(mockedConfig).calledWith().mockReturnValue(mockConfig);
 });
 
 afterEach(() => {
