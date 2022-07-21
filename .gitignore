@@ -4,7 +4,8 @@
 .eslintcache
 /lib
 /node_modules
-/.tmp
+/.pack-it
+/tmp
 
 log*
 npm-debug.log*

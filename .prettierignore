@@ -3,6 +3,7 @@
 /.husky
 /lib
 /node_modules
-/.tmp
+/.pack-it
+/tmp
 
 package-lock.json
