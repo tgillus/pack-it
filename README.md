@@ -2,7 +2,7 @@
 
 Pack It! is a packager that bundles source code within a standard Node.js project into a zip file.
 
-[![Build Status](https://app.travis-ci.com/tgillus/pack-it.svg?branch=main)](https://app.travis-ci.com/tgillus/pack-it)
+![Build Status](https://github.com/tgillus/pack-it/actions/workflows/main.yml/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/tgillus/pack-it/badge.svg?branch=main)](https://coveralls.io/github/tgillus/pack-it?branch=main)
 [![GitHub version](https://img.shields.io/github/package-json/v/tgillus/pack-it)](https://github.com/tgillus/pack-it#readme)
 [![NPM version](https://img.shields.io/npm/v/@triviumsoftware/pack-it)](https://www.npmjs.com/package/@triviumsoftware/pack-it)
@@ -13,7 +13,7 @@ Pack It! is a packager that bundles source code within a standard Node.js projec
 
 Ensure the following requirements are met prior to usage:
 
-- Node.js 12, 14, or 16 installed
+- Node.js 14, or 16 installed
 - Git installed
 
 ## Installation
@@ -41,10 +41,8 @@ module.exports = {
   projectName: 'pack-it',
   git: {
     url: 'git@github.com:tgillus/pack-it.git',
-    branch: 'main',
   },
-  tmpDir: '.tmp',
-  artifactDir: 'deploy',
+  artifactDir: 'dist',
   includeDirs: ['lib', 'node_modules'],
 };
 ```
@@ -55,18 +53,16 @@ module.exports = {
 | ------------- | ------------------------------------------------------- | -------- | ------------------------- |
 | `projectName` | Name of the project. Used in the zip file name.         | true     |                           |
 | `git.url`     | Repo whose source code is cloned and zipped.            | true     |                           |
-| `git.branch`  | Branch of the repo that is checked out when cloned.     | true     |                           |
-| `tmpDir`      | Directory where the repo is cloned.                     | false    | `'.tmp'`                  |
-| `artifactDir` | Directory where the produced zip file is saved.         | false    | `'deploy'`                |
+| `artifactDir` | Directory where the produced zip file is saved.         | false    | `'dist'`                  |
 | `includeDirs` | Array of directories that are included in the zip file. | false    | `['src', 'node_modules']` |
 
 ### Commands
 
-| Command             | Description                        |
-| ------------------- | ---------------------------------- |
-| `npx pack-it`       | Bundle the project as a zip file.  |
-| `npx pack-it pack`  | Bundle the project as a zip file.  |
-| `npx pack-it clean` | Delete `tmpDir` and `artifactDir`. |
+| Command             | Description                                    |
+| ------------------- | ---------------------------------------------- |
+| `npx pack-it`       | Bundle the project as a zip file.              |
+| `npx pack-it pack`  | Bundle the project as a zip file.              |
+| `npx pack-it clean` | Delete .pack-it and `artifactDir` directories. |
 
 ### Pack
 
@@ -92,7 +88,7 @@ npx pack-it pack
 
 ### Clean Up
 
-Run the following in the root of the project to remove `tmpDir` and `artifactDir`:
+Run the following in the root of the project to remove the .pack-it and `artifactDir` directories:
 
 ```bash
 npx pack-it clean
