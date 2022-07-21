@@ -1,5 +1,5 @@
 export interface CliSettings {
-  git: {
-    branch: string;
+  readonly git: {
+    readonly branch: string;
   };
 }
