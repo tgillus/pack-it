@@ -13,7 +13,7 @@ Pack It! is a packager that bundles source code within a standard Node.js projec
 
 Ensure the following requirements are met prior to usage:
 
-- Node.js 14, or 16 installed
+- Node.js 14 or higher
 - Git installed
 
 ## Installation
