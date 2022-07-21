@@ -34,7 +34,7 @@ yarn add --dev @triviumsoftware/pack-it
 
 ### Configuration File
 
-Pack It! looks for a config file named `pack-it.config.js` in the project's root directory. The following is an example with all of the configurable settings:
+Pack It! looks for a config file named `pack-it.config.cjs` in the project's root directory. The following is an example with all of the configurable settings:
 
 ```javascript
 module.exports = {
