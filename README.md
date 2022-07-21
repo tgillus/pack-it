@@ -54,7 +54,7 @@ module.exports = {
 | `projectName` | Name of the project. Used in the zip file name.         | true     |                           |
 | `git.url`     | Repo whose source code is cloned and zipped.            | true     |                           |
 | `artifactDir` | Directory where the produced zip file is saved.         | false    | `'dist'`                  |
-| `includeDirs` | Array of directories that are included in the zip file. | false    | `['src', 'node_modules']` |
+| `includeDirs` | Array of directories that are included in the zip file. | false    | `['lib', 'node_modules']` |
 
 ### Commands
 
