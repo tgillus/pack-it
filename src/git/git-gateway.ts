@@ -9,7 +9,7 @@ export class GitGateway {
 
   clone() {
     const {
-      git: { branch, url },
+      git: { branch = 'main', url },
       tmpDir,
     } = this.config;
 

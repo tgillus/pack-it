@@ -31,7 +31,8 @@ program
   .command('clean')
   .description('delete .pack-it and zip file directories')
   .action(() => {
-    const packIt = PackIt.from(new Config(_.merge(Loader.load())));
+    // const packIt = PackIt.from(new Config(_.merge(Loader.load())));
+    const packIt = PackIt.from(new Config(Loader.load()));
 
     packIt.clean();
   });
