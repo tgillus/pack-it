@@ -5,6 +5,10 @@ import { Loader } from '../config/loader.js';
 import { Config } from '../config/config.js';
 import { release } from './release.js';
 import { PackIt } from '../pack-it/pack-it.js';
+import { Spinner } from './spinner.js';
+import { EmitterListener } from '../emitter/emitter.js';
+
+const listeners: EmitterListener[] = [new Spinner()];
 
 program
   .name('pack-it')
@@ -21,7 +25,8 @@ program
   )
   .action(async ({ branch }: { branch: string }) => {
     const packIt = PackIt.from(
-      new Config(_.merge(Loader.load(), { git: { branch } }))
+      new Config(_.merge(Loader.load(), { git: { branch } })),
+      listeners
     );
 
     await packIt.build();
@@ -31,7 +36,7 @@ program
   .command('clean')
   .description('delete .pack-it and zip file directories')
   .action(() => {
-    const packIt = PackIt.from(new Config(Loader.load()));
+    const packIt = PackIt.from(new Config(Loader.load()), listeners);
 
     packIt.clean();
   });

@@ -1,6 +1,5 @@
-import { Spinner } from '../cli/spinner/spinner.js';
 import { Config } from '../config/config.js';
-import { Emitter } from '../emitter/emitter.js';
+import { Emitter, EmitterListener } from '../emitter/emitter.js';
 import { Builder } from './builder.js';
 import { Cleaner } from './cleaner.js';
 import { Preparer } from './preparer.js';
@@ -26,8 +25,8 @@ export class PackIt {
     this.cleaner.clean();
   }
 
-  static from(config: Config) {
-    const emitter = new Emitter(new Spinner());
+  static from(config: Config, listeners: EmitterListener[] = []) {
+    const emitter = new Emitter(listeners);
 
     return new PackIt(
       Preparer.from(config),

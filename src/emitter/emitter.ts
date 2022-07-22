@@ -1,5 +1,9 @@
 import Emittery from 'emittery';
-import { Spinner } from '../cli/spinner/spinner.js';
+
+export interface EmitterListener {
+  start(text: string): void;
+  succeed(text: string): void;
+}
 
 export class Emitter {
   private readonly emittery = new Emittery<{
@@ -7,12 +11,15 @@ export class Emitter {
     succeed: string;
   }>();
 
-  constructor(spinner: Spinner) {
-    this.emittery.on('start', (text) => {
-      spinner.start(text);
-    });
-    this.emittery.on('succeed', (text) => {
-      spinner.succeed(text);
+  constructor(listeners: EmitterListener[]) {
+    listeners.forEach((listener) => {
+      this.emittery.on('start', (text) => {
+        listener.start(text);
+      });
+
+      this.emittery.on('succeed', (text) => {
+        listener.succeed(text);
+      });
     });
   }
 
