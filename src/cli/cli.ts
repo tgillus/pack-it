@@ -19,12 +19,12 @@ program
     'Git branch used to build the zip file',
     'main'
   )
-  .action(({ branch }: { branch: string }) => {
+  .action(async ({ branch }: { branch: string }) => {
     const packIt = PackIt.from(
       new Config(_.merge(Loader.load(), { git: { branch } }))
     );
 
-    packIt.build();
+    await packIt.build();
   });
 
 program
@@ -36,4 +36,4 @@ program
     packIt.clean();
   });
 
-program.parse();
+program.parseAsync();

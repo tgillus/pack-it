@@ -1,7 +1,7 @@
-import { execaSync } from 'execa';
+import { execa } from 'execa';
 
 export class Process {
-  exec(file: string, args?: readonly string[], cwd?: string) {
-    execaSync(file, args, { cwd });
+  async exec(file: string, args?: readonly string[], cwd?: string) {
+    await execa(file, args, { cwd });
   }
 }

@@ -1,4 +1,6 @@
+import { Spinner } from '../cli/spinner/spinner.js';
 import { Config } from '../config/config.js';
+import { Emitter } from '../emitter/emitter.js';
 import { Builder } from './builder.js';
 import { Cleaner } from './cleaner.js';
 import { Preparer } from './preparer.js';
@@ -14,10 +16,10 @@ export class PackIt {
     this.preparer.prepare();
   }
 
-  build() {
+  async build() {
     this.cleaner.clean();
     this.prepare();
-    this.builder.build();
+    await this.builder.build();
   }
 
   clean() {
@@ -25,9 +27,11 @@ export class PackIt {
   }
 
   static from(config: Config) {
+    const emitter = new Emitter(new Spinner());
+
     return new PackIt(
       Preparer.from(config),
-      Builder.from(config),
+      Builder.from(config, emitter),
       Cleaner.from(config)
     );
   }

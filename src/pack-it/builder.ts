@@ -1,22 +1,20 @@
 import { Config } from '../config/config.js';
-import { GitGateway } from '../git/git-gateway.js';
+import { Emitter } from '../emitter/emitter.js';
+import { Git } from '../git/git.js';
 import { Npm } from '../npm/npm.js';
 
 export class Builder {
-  constructor(
-    private readonly gitGateway: GitGateway,
-    private readonly npm: Npm
-  ) {}
+  constructor(private readonly git: Git, private readonly npm: Npm) {}
 
-  build() {
-    this.gitGateway.clone();
-    this.npm.install();
-    this.npm.build();
-    this.npm.cleanModules();
-    this.npm.installProduction();
+  async build() {
+    await this.git.clone();
+    await this.npm.install();
+    await this.npm.build();
+    await this.npm.cleanModules();
+    await this.npm.installProduction();
   }
 
-  static from(config: Config) {
-    return new Builder(GitGateway.from(config), Npm.from(config));
+  static from(config: Config, emitter: Emitter) {
+    return new Builder(Git.from(config, emitter), Npm.from(config, emitter));
   }
 }

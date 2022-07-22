@@ -7,13 +7,13 @@ export class GitGateway {
     private readonly process: Process
   ) {}
 
-  clone() {
+  async clone() {
     const {
       git: { branch = 'main', url },
       tmpDir,
     } = this.config;
 
-    this.process.exec('git', [
+    await this.process.exec('git', [
       'clone',
       '-b',
       branch,
