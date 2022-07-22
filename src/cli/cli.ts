@@ -4,6 +4,7 @@ import { program } from 'commander';
 import { Loader } from '../config/loader.js';
 import { Config } from '../config/config.js';
 import { release } from './release.js';
+import { PackIt } from '../pack-it/pack-it.js';
 
 program
   .name('pack-it')
@@ -19,7 +20,20 @@ program
     'main'
   )
   .action(({ branch }: { branch: string }) => {
-    new Config(_.merge(Loader.load(), { git: { branch } }));
+    const packIt = PackIt.from(
+      new Config(_.merge(Loader.load(), { git: { branch } }))
+    );
+
+    packIt.build();
+  });
+
+program
+  .command('clean')
+  .description('delete .pack-it and zip file directories')
+  .action(() => {
+    const packIt = PackIt.from(new Config(_.merge(Loader.load())));
+
+    packIt.clean();
   });
 
 program.parse();
