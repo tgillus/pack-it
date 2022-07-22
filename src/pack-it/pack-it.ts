@@ -15,6 +15,7 @@ export class PackIt {
   }
 
   build() {
+    this.cleaner.clean();
     this.prepare();
     this.builder.build();
   }
