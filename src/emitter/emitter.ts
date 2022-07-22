@@ -1,13 +1,6 @@
 import Emittery from 'emittery';
 import { Spinner } from '../cli/spinner/spinner.js';
 
-export interface Event {
-  type: EventType;
-  text: string;
-}
-
-type EventType = 'start' | 'succeed';
-
 export class Emitter {
   private readonly emittery = new Emittery<{
     start: string;
@@ -23,7 +16,11 @@ export class Emitter {
     });
   }
 
-  async emit({ type, text }: Event) {
-    await this.emittery.emit(type, text);
+  async start(text: string) {
+    await this.emittery.emit('start', text);
+  }
+
+  async succeed(text: string) {
+    await this.emittery.emit('succeed', text);
   }
 }

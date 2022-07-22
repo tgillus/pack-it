@@ -10,7 +10,12 @@ export class Config {
   }
 
   get git() {
-    return this.settings.git;
+    const { url, branch = 'main' } = this.settings.git;
+
+    return {
+      url,
+      branch,
+    };
   }
 
   get tmpDir() {

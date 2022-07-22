@@ -10,53 +10,35 @@ export class Npm {
   ) {}
 
   async install() {
-    await this.emitter.emit({
-      type: 'start',
-      text: 'Installing project dependencies',
-    });
+    await this.emitter.start('Installing project dependencies');
     await this.process.exec('npm', ['install'], this.config.tmpDir);
-    await this.emitter.emit({
-      type: 'succeed',
-      text: 'Installing project dependencies',
-    });
+    await this.emitter.succeed('Installing project dependencies');
   }
 
   async build() {
-    await this.emitter.emit({ type: 'start', text: 'Building project' });
+    await this.emitter.start('Building project');
     await this.process.exec('npm', ['run', 'build'], this.config.tmpDir);
-    await this.emitter.emit({ type: 'succeed', text: 'Building project' });
+    await this.emitter.succeed('Building project');
   }
 
   async cleanModules() {
-    await this.emitter.emit({
-      type: 'start',
-      text: 'Cleaning project dependencies',
-    });
+    await this.emitter.start('Deleting project dependencies');
     await this.process.exec(
       'npm',
       ['run', 'clean:modules'],
       this.config.tmpDir
     );
-    await this.emitter.emit({
-      type: 'succeed',
-      text: 'Cleaning project dependencies',
-    });
+    await this.emitter.succeed('Deleting project dependencies');
   }
 
   async installProduction() {
-    await this.emitter.emit({
-      type: 'start',
-      text: 'Installing production dependencies',
-    });
+    await this.emitter.start('Installing production dependencies');
     await this.process.exec(
       'npm',
       ['install', '--production'],
       this.config.tmpDir
     );
-    await this.emitter.emit({
-      type: 'succeed',
-      text: 'Installing production dependencies',
-    });
+    await this.emitter.succeed('Installing production dependencies');
   }
 
   static from(config: Config, emitter: Emitter) {

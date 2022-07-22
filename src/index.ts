@@ -8,7 +8,7 @@ export * from './cli/settings.js';
 export * from './config/config.js';
 export * from './config/loader.js';
 export * from './config/settings.js';
-export * from './file/file-system.js';
+export * from './file-system/file-system.js';
 export * from './git/git-gateway.js';
 export * from './npm/npm.js';
 export * from './pack-it/builder.js';

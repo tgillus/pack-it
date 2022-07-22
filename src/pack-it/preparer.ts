@@ -1,5 +1,5 @@
 import { Config } from '../config/config.js';
-import { FileSystem } from '../file/file-system.js';
+import { FileSystem } from '../file-system/file-system.js';
 
 export class Preparer {
   constructor(
@@ -12,6 +12,6 @@ export class Preparer {
   }
 
   static from(config: Config) {
-    return new Preparer(config, new FileSystem());
+    return new Preparer(config, FileSystem.build());
   }
 }

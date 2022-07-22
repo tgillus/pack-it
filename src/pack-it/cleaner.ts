@@ -1,5 +1,5 @@
 import { Config } from '../config/config.js';
-import { FileSystem } from '../file/file-system.js';
+import { FileSystem } from '../file-system/file-system.js';
 
 export class Cleaner {
   constructor(
@@ -12,6 +12,6 @@ export class Cleaner {
   }
 
   static from(config: Config) {
-    return new Cleaner(config, new FileSystem());
+    return new Cleaner(config, FileSystem.build());
   }
 }
