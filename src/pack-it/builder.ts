@@ -12,6 +12,8 @@ export class Builder {
     this.gitGateway.clone();
     this.npm.install();
     this.npm.build();
+    this.npm.cleanModules();
+    this.npm.installProduction();
   }
 
   static from(config: Config) {
