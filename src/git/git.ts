@@ -8,7 +8,7 @@ export class Git {
     private readonly gitGateway: GitGateway
   ) {}
 
-  private async clone() {
+  async clone() {
     const {
       git: { url, branch },
       packItDir,
