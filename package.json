@@ -15,8 +15,8 @@
   "bin": {
     "pack-it": "./lib/cli/cli.js"
   },
-  "main": "./lib/index.js",
-  "types": "./lib/index.d.ts",
+  "main": "./lib/cli.js",
+  "types": "./lib/cli.d.ts",
   "files": [
     "/lib"
   ],
@@ -30,7 +30,6 @@
     "zip"
   ],
   "scripts": {
-    "barrels": "barrelsby -c barrelsby.json && npm run format",
     "build": "npm run clean && npm test && tsc",
     "clean": "del ./lib ./coverage",
     "clean:modules": "del ./node_modules",
@@ -57,7 +56,6 @@
     "@typescript-eslint/eslint-plugin": "5.30.7",
     "@typescript-eslint/parser": "5.30.7",
     "ava": "4.3.1",
-    "barrelsby": "2.3.4",
     "c8": "7.12.0",
     "del-cli": "5.0.0",
     "eslint": "8.20.0",
