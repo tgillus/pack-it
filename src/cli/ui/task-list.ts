@@ -5,10 +5,6 @@ import { title } from './title.js';
 export class TaskList {
   constructor(private readonly tasks: Task[]) {}
 
-  add(tasks: Task[]) {
-    this.tasks.push(...tasks);
-  }
-
   async run() {
     await new Listr(this.tasks.map((task) => task.prepare())).run();
   }
