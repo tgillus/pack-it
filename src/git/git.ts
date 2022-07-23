@@ -8,8 +8,13 @@ export class Git {
     private readonly gitGateway: GitGateway
   ) {}
 
-  async clone() {
-    await this.gitGateway.clone();
+  private async clone() {
+    const {
+      git: { url, branch },
+      packItDir,
+    } = this.config;
+
+    await this.gitGateway.clone(url, branch, packItDir);
   }
 
   tasks() {
@@ -24,6 +29,6 @@ export class Git {
   }
 
   static from(config: Config) {
-    return new Git(config, GitGateway.from(config));
+    return new Git(config, GitGateway.build());
   }
 }

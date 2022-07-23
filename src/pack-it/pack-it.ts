@@ -10,12 +10,18 @@ export class PackIt {
     private readonly cleaner: Cleaner
   ) {}
 
-  tasks() {
-    return [
-      ...this.cleaner.tasks(),
-      ...this.preparer.tasks(),
-      ...this.builder.tasks(),
-    ];
+  tasks(command: 'clean' | 'build') {
+    switch (command) {
+      case 'clean':
+        return [...this.cleaner.tasks()];
+      case 'build':
+      default:
+        return [
+          ...this.cleaner.tasks(),
+          ...this.preparer.tasks(),
+          ...this.builder.tasks(),
+        ];
+    }
   }
 
   static from(config: Config) {

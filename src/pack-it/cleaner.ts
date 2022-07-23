@@ -11,11 +11,11 @@ export class Cleaner {
 
   async clean() {
     const {
-      tmpDir,
+      packItDir,
       zip: { destination },
     } = this.config;
 
-    await this.fs.rm([tmpDir, destination]);
+    await this.fs.rm([packItDir, destination]);
   }
 
   tasks() {

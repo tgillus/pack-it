@@ -11,11 +11,11 @@ export class Preparer {
 
   async prepare() {
     const {
-      tmpDir,
+      packItDir,
       zip: { destination },
     } = this.config;
 
-    this.fs.mkdir(tmpDir);
+    this.fs.mkdir(packItDir);
     this.fs.mkdir(destination);
   }
 

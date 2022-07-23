@@ -25,18 +25,20 @@ program
     const packIt = PackIt.from(
       new Config(_.merge(Loader.load(), { git: { branch } }))
     );
+    const tasklist = TaskList.from(packIt.tasks('build'));
 
-    await TaskList.from(packIt.tasks()).run();
+    await tasklist.run();
   });
 
-// program
-//   .command('clean')
-//   .description('delete .pack-it and zip file directories')
-//   .action(() => {
-//     const packIt = PackIt.from(new Config(Loader.load()));
+program
+  .command('clean')
+  .description('delete build artifacts')
+  .action(async () => {
+    const packIt = PackIt.from(new Config(Loader.load()));
+    const tasklist = TaskList.from(packIt.tasks('clean'));
 
-//     packIt.clean();
-//   });
+    await tasklist.run();
+  });
 
 function main() {
   title();

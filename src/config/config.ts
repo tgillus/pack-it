@@ -34,8 +34,4 @@ export class Config {
   get packItDir() {
     return `${this.rootDir}/.pack-it`;
   }
-
-  get tmpDir() {
-    return `${this.rootDir}/${this.packItDir}`;
-  }
 }

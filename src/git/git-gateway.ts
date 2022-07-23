@@ -1,29 +1,20 @@
-import { Config } from '../config/config.js';
 import { Process } from '../process/process.js';
 
 export class GitGateway {
-  constructor(
-    private readonly config: Config,
-    private readonly process: Process
-  ) {}
+  constructor(private readonly process: Process) {}
 
-  async clone() {
-    const {
-      git: { branch, url },
-      tmpDir,
-    } = this.config;
-
+  async clone(url: string, branch: string, destination: string) {
     await this.process.exec('git', [
       'clone',
       '-b',
       branch,
       '--single-branch',
       url,
-      tmpDir,
+      destination,
     ]);
   }
 
-  static from(config: Config) {
-    return new GitGateway(config, new Process());
+  static build() {
+    return new GitGateway(new Process());
   }
 }
