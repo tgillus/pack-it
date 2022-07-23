@@ -1,7 +1,7 @@
 import path from 'path';
-import { Task } from '../cli/ui/task-list.js';
 import { Config } from '../config/config.js';
 import { FileSystem } from '../file-system/file-system.js';
+import { Step } from './pack-it.js';
 
 export class Preparer {
   constructor(
@@ -19,19 +19,19 @@ export class Preparer {
     this.fs.mkdir(destination);
   };
 
-  tasks() {
+  steps(): Step[] {
     const {
       packItDir,
       zip: { destination },
     } = this.config;
 
     return [
-      new Task({
-        title: `Creating ${path.basename(packItDir)} and ${path.basename(
+      {
+        description: `Creating ${path.basename(packItDir)} and ${path.basename(
           destination
         )}`,
         action: this.prepare,
-      }),
+      },
     ];
   }
 

@@ -10,16 +10,16 @@ export class PackIt {
     private readonly cleaner: Cleaner
   ) {}
 
-  tasks(command: 'clean' | 'build') {
+  steps(command: 'clean' | 'build') {
     switch (command) {
       case 'clean':
-        return [...this.cleaner.tasks()];
+        return [...this.cleaner.steps()];
       case 'build':
       default:
         return [
-          ...this.cleaner.tasks(),
-          ...this.preparer.tasks(),
-          ...this.builder.tasks(),
+          ...this.cleaner.steps(),
+          ...this.preparer.steps(),
+          ...this.builder.steps(),
         ];
     }
   }
@@ -31,4 +31,9 @@ export class PackIt {
       Cleaner.from(config)
     );
   }
+}
+
+export interface Step {
+  readonly description: string;
+  readonly action: () => Promise<void>;
 }

@@ -1,7 +1,7 @@
 import path from 'path';
-import { Task } from '../cli/ui/task-list.js';
 import { Config } from '../config/config.js';
 import { FileSystem } from '../file-system/file-system.js';
+import { Step } from './pack-it.js';
 
 export class Cleaner {
   constructor(
@@ -18,19 +18,19 @@ export class Cleaner {
     await this.fs.rm([packItDir, destination]);
   };
 
-  tasks() {
+  steps(): Step[] {
     const {
       packItDir,
       zip: { destination },
     } = this.config;
 
     return [
-      new Task({
-        title: `Deleting ${path.basename(packItDir)} and ${path.basename(
+      {
+        description: `Deleting ${path.basename(packItDir)} and ${path.basename(
           destination
         )}`,
         action: this.clean,
-      }),
+      },
     ];
   }
 

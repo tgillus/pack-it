@@ -25,7 +25,7 @@ program
     const packIt = PackIt.from(
       new Config(_.merge(Loader.load(), { git: { branch } }))
     );
-    const tasklist = TaskList.from(packIt.tasks('build'));
+    const tasklist = TaskList.from(packIt.steps('build'));
 
     await tasklist.run();
   });
@@ -35,7 +35,7 @@ program
   .description('delete build artifacts')
   .action(async () => {
     const packIt = PackIt.from(new Config(Loader.load()));
-    const tasklist = TaskList.from(packIt.tasks('clean'));
+    const tasklist = TaskList.from(packIt.steps('clean'));
 
     await tasklist.run();
   });

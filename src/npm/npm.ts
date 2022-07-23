@@ -1,5 +1,5 @@
-import { Task } from '../cli/ui/task-list.js';
 import { Config } from '../config/config.js';
+import { Step } from '../pack-it/pack-it.js';
 import { Process } from '../process/process.js';
 
 export class Npm {
@@ -32,24 +32,24 @@ export class Npm {
     );
   };
 
-  tasks() {
+  steps(): Step[] {
     return [
-      new Task({
-        title: 'Installing dependencies',
+      {
+        description: 'Installing dependencies',
         action: this.installDeps,
-      }),
-      new Task({
-        title: 'Building project',
+      },
+      {
+        description: 'Building project',
         action: this.build,
-      }),
-      new Task({
-        title: 'Deleting project dependencies',
+      },
+      {
+        description: 'Deleting project dependencies',
         action: this.cleanModules,
-      }),
-      new Task({
-        title: 'Installing project production dependencies',
+      },
+      {
+        description: 'Installing project production dependencies',
         action: this.installProdDeps,
-      }),
+      },
     ];
   }
 

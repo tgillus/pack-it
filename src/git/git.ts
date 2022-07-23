@@ -1,6 +1,6 @@
-import { Task } from '../cli/ui/task-list.js';
 import { Config } from '../config/config.js';
 import { GitGateway } from './git-gateway.js';
+import { Step } from '../pack-it/pack-it.js';
 
 export class Git {
   constructor(
@@ -17,14 +17,14 @@ export class Git {
     await this.gitGateway.clone(url, branch, packItDir);
   };
 
-  tasks() {
+  steps(): Step[] {
     const { url, branch } = this.config.git;
 
     return [
-      new Task({
-        title: `Cloning from ${url} and checking out ${branch} branch`,
+      {
+        description: `Cloning from ${url} and checking out ${branch} branch`,
         action: this.clone,
-      }),
+      },
     ];
   }
 

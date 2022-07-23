@@ -1,33 +1,36 @@
 import { Listr, ListrTask } from 'listr2';
+import { Step } from '../../pack-it/pack-it.js';
 
 export class TaskList {
-  constructor(private readonly tasks: Task[]) {}
+  private readonly list: Listr;
 
-  async run() {
-    await new Listr(this.tasks.map((task) => task.prepare())).run();
+  constructor(tasks: Task[]) {
+    this.list = new Listr(tasks);
   }
 
-  static from(tasks: Task[]) {
-    return new TaskList(tasks);
+  async run() {
+    await this.list.run();
+  }
+
+  static from(steps: Step[]) {
+    return new TaskList(steps.map((step) => Task.from(step)));
   }
 }
 
-export class Task {
-  constructor(private readonly item: TaskListItem) {}
+class Task implements ListrTask {
+  constructor(
+    public readonly title: string,
+    public readonly task: () => Promise<void>
+  ) {}
 
-  prepare(): ListrTask {
-    const { action, title } = this.item;
+  static from(step: Step): Task {
+    const { description, action } = step;
 
     return {
-      title,
+      title: description,
       task: async () => {
         await action();
       },
     };
   }
-}
-
-export interface TaskListItem {
-  readonly title: string;
-  readonly action: () => Promise<void>;
 }
