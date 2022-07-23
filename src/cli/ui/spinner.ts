@@ -1,5 +1,5 @@
 import ora from 'ora';
-import { EmitterListener } from '../emitter/emitter.js';
+import { EmitterListener } from '../../emitter/emitter.js';
 
 export class Spinner implements EmitterListener {
   private readonly spinner = ora();

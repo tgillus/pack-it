@@ -5,8 +5,9 @@ import { Loader } from '../config/loader.js';
 import { Config } from '../config/config.js';
 import { release } from './release.js';
 import { PackIt } from '../pack-it/pack-it.js';
-import { Spinner } from './spinner.js';
+import { Spinner } from './ui/spinner.js';
 import { EmitterListener } from '../emitter/emitter.js';
+import { title } from './ui/title.js';
 
 const listeners: EmitterListener[] = [new Spinner()];
 
@@ -41,4 +42,9 @@ program
     packIt.clean();
   });
 
-program.parseAsync();
+function main() {
+  title();
+  program.parseAsync();
+}
+
+main();

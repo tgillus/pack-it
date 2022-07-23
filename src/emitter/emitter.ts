@@ -12,6 +12,18 @@ export class Emitter {
   }>();
 
   constructor(listeners: EmitterListener[]) {
+    this.addListeners(listeners);
+  }
+
+  async start(text: string) {
+    await this.emittery.emit('start', text);
+  }
+
+  async succeed(text: string) {
+    await this.emittery.emit('succeed', text);
+  }
+
+  addListeners(listeners: EmitterListener[]) {
     listeners.forEach((listener) => {
       this.emittery.on('start', (text) => {
         listener.start(text);
@@ -21,13 +33,5 @@ export class Emitter {
         listener.succeed(text);
       });
     });
-  }
-
-  async start(text: string) {
-    await this.emittery.emit('start', text);
-  }
-
-  async succeed(text: string) {
-    await this.emittery.emit('succeed', text);
   }
 }

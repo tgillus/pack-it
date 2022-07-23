@@ -51,6 +51,7 @@
     "@esbuild-kit/esm-loader": "2.4.1",
     "@release-it/conventional-changelog": "5.0.0",
     "@types/archiver": "5.3.1",
+    "@types/figlet": "1.5.4",
     "@types/lodash": "4.14.182",
     "@types/node": "18.0.6",
     "@typescript-eslint/eslint-plugin": "5.30.7",
@@ -75,12 +76,13 @@
     "commander": "9.4.0",
     "cosmiconfig": "7.0.1",
     "del": "7.0.0",
-    "emittery": "^0.11.0",
+    "emittery": "0.11.0",
     "execa": "6.1.0",
+    "figlet": "1.5.2",
     "lodash": "4.17.21",
     "make-dir": "3.1.0",
     "ora": "6.1.2",
-    "path-type": "^5.0.0",
+    "path-type": "5.0.0",
     "pkg-dir": "6.0.1",
     "read-pkg-up": "9.1.0"
   }
