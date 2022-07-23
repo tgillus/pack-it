@@ -9,7 +9,7 @@ export class Preparer {
     private readonly fs: FileSystem
   ) {}
 
-  async prepare() {
+  prepare = async () => {
     const {
       packItDir,
       zip: { destination },
@@ -17,7 +17,7 @@ export class Preparer {
 
     this.fs.mkdir(packItDir);
     this.fs.mkdir(destination);
-  }
+  };
 
   tasks() {
     const {
@@ -30,7 +30,7 @@ export class Preparer {
         title: `Creating ${path.basename(packItDir)} and ${path.basename(
           destination
         )}`,
-        action: this.prepare.bind(this),
+        action: this.prepare,
       }),
     ];
   }

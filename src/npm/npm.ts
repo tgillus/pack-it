@@ -8,47 +8,47 @@ export class Npm {
     private readonly process: Process
   ) {}
 
-  async installDeps() {
+  installDeps = async () => {
     await this.process.exec('npm', ['install'], this.config.packItDir);
-  }
+  };
 
-  async build() {
+  build = async () => {
     await this.process.exec('npm', ['run', 'build'], this.config.packItDir);
-  }
+  };
 
-  async cleanModules() {
+  cleanModules = async () => {
     await this.process.exec(
       'npm',
       ['run', 'clean:modules'],
       this.config.packItDir
     );
-  }
+  };
 
-  async installProdDeps() {
+  installProdDeps = async () => {
     await this.process.exec(
       'npm',
       ['install', '--production'],
       this.config.packItDir
     );
-  }
+  };
 
   tasks() {
     return [
       new Task({
         title: 'Installing dependencies',
-        action: this.installDeps.bind(this),
+        action: this.installDeps,
       }),
       new Task({
         title: 'Building project',
-        action: this.build.bind(this),
+        action: this.build,
       }),
       new Task({
         title: 'Deleting project dependencies',
-        action: this.cleanModules.bind(this),
+        action: this.cleanModules,
       }),
       new Task({
         title: 'Installing project production dependencies',
-        action: this.installProdDeps.bind(this),
+        action: this.installProdDeps,
       }),
     ];
   }

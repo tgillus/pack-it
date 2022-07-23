@@ -8,14 +8,14 @@ export class Git {
     private readonly gitGateway: GitGateway
   ) {}
 
-  async clone() {
+  clone = async () => {
     const {
       git: { url, branch },
       packItDir,
     } = this.config;
 
     await this.gitGateway.clone(url, branch, packItDir);
-  }
+  };
 
   tasks() {
     const { url, branch } = this.config.git;
@@ -23,7 +23,7 @@ export class Git {
     return [
       new Task({
         title: `Cloning from ${url} and checking out ${branch} branch`,
-        action: this.clone.bind(this),
+        action: this.clone,
       }),
     ];
   }

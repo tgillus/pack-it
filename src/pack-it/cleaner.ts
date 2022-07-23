@@ -9,14 +9,14 @@ export class Cleaner {
     private readonly fs: FileSystem
   ) {}
 
-  async clean() {
+  clean = async () => {
     const {
       packItDir,
       zip: { destination },
     } = this.config;
 
     await this.fs.rm([packItDir, destination]);
-  }
+  };
 
   tasks() {
     const {
@@ -29,7 +29,7 @@ export class Cleaner {
         title: `Deleting ${path.basename(packItDir)} and ${path.basename(
           destination
         )}`,
-        action: this.clean.bind(this),
+        action: this.clean,
       }),
     ];
   }
