@@ -30,7 +30,7 @@
     "zip"
   ],
   "scripts": {
-    "barrel": "barrelsby -c barrelsby.json && npm run format && replace-in-files --regex=\"';\" --replacement=\".js';\" ./src/index.ts",
+    "barrel": "barrelsby -c barrelsby.json && npm run format && replace-in-files --regex=$'(export.+?)\\';\\n' --replacement=$'$1.js\\';\\n' ./src/index.ts",
     "build": "npm run clean && npm run barrel && npm test && tsc",
     "clean": "del ./lib ./coverage",
     "clean:modules": "del ./node_modules",
@@ -48,7 +48,6 @@
   "devDependencies": {
     "@commitlint/cli": "17.0.3",
     "@commitlint/config-conventional": "17.0.3",
-    "@esbuild-kit/esm-loader": "2.4.1",
     "@release-it/conventional-changelog": "5.0.0",
     "@types/archiver": "5.3.1",
     "@types/figlet": "1.5.4",
@@ -65,7 +64,7 @@
     "lint-staged": "13.0.3",
     "prettier": "2.7.1",
     "release-it": "15.1.3",
-    "replace-in-files-cli": "^2.0.0",
+    "replace-in-files-cli": "2.0.0",
     "testdouble": "3.16.6",
     "tsx": "3.8.0",
     "typescript": "4.7.4"
