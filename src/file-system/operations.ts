@@ -1,17 +1,17 @@
-import { deleteSync } from 'del';
+import { deleteAsync } from 'del';
 import makeDir from 'make-dir';
-import { isDirectorySync } from 'path-type';
+import { isDirectory } from 'path-type';
 
 export class Operations {
-  rm(patterns: readonly string[]) {
-    deleteSync(patterns);
+  async rm(patterns: readonly string[]) {
+    await deleteAsync(patterns);
   }
 
-  mkdir(path: string) {
-    makeDir.sync(path);
+  async mkdir(path: string) {
+    await makeDir(path);
   }
 
-  isDir(path: string) {
-    return isDirectorySync(path);
+  async isDir(path: string) {
+    return await isDirectory(path);
   }
 }

@@ -1,38 +1,29 @@
+import { Task } from '../cli/ui/task-list.js';
 import { Config } from '../config/config.js';
-import { Emitter } from '../emitter/emitter.js';
 import { GitGateway } from './git-gateway.js';
 
 export class Git {
   constructor(
-    private readonly gitGateway: GitGateway,
-    private readonly emitter: GitEmitter
+    private readonly config: Config,
+    private readonly gitGateway: GitGateway
   ) {}
 
   async clone() {
-    await this.emitter.cloneStart();
     await this.gitGateway.clone();
-    await this.emitter.cloneSucceed();
   }
 
-  static from(config: Config, emitter: Emitter) {
-    return new Git(GitGateway.from(config), new GitEmitter(config, emitter));
-  }
-}
+  tasks() {
+    const { url, branch } = this.config.git;
 
-export class GitEmitter {
-  private readonly text: string;
-
-  constructor(config: Config, private readonly emitter: Emitter) {
-    const { url, branch } = config.git;
-
-    this.text = `Cloning from ${url} and checking out ${branch} branch`;
+    return [
+      new Task({
+        title: `Cloning from ${url} and checking out ${branch} branch`,
+        action: this.clone.bind(this),
+      }),
+    ];
   }
 
-  async cloneStart() {
-    await this.emitter.start(this.text);
-  }
-
-  async cloneSucceed() {
-    await this.emitter.succeed(this.text);
+  static from(config: Config) {
+    return new Git(config, GitGateway.from(config));
   }
 }

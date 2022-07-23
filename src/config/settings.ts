@@ -3,4 +3,8 @@ export interface PackItSettings {
   readonly git: {
     url: string;
   };
+  readonly zip: {
+    destination: string;
+    include: string[];
+  };
 }

@@ -1,5 +1,4 @@
 import { Config } from '../config/config.js';
-import { Emitter, EmitterListener } from '../emitter/emitter.js';
 import { Builder } from './builder.js';
 import { Cleaner } from './cleaner.js';
 import { Preparer } from './preparer.js';
@@ -11,26 +10,18 @@ export class PackIt {
     private readonly cleaner: Cleaner
   ) {}
 
-  prepare() {
-    this.preparer.prepare();
+  tasks() {
+    return [
+      ...this.cleaner.tasks(),
+      ...this.preparer.tasks(),
+      ...this.builder.tasks(),
+    ];
   }
 
-  async build() {
-    this.cleaner.clean();
-    this.prepare();
-    await this.builder.build();
-  }
-
-  clean() {
-    this.cleaner.clean();
-  }
-
-  static from(config: Config, listeners: EmitterListener[] = []) {
-    const emitter = new Emitter(listeners);
-
+  static from(config: Config) {
     return new PackIt(
       Preparer.from(config),
-      Builder.from(config, emitter),
+      Builder.from(config),
       Cleaner.from(config)
     );
   }

@@ -1,5 +1,5 @@
 /coverage
-/deploy
+/dist
 .env
 .eslintcache
 /lib

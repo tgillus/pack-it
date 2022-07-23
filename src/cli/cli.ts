@@ -5,11 +5,8 @@ import { Loader } from '../config/loader.js';
 import { Config } from '../config/config.js';
 import { release } from './release.js';
 import { PackIt } from '../pack-it/pack-it.js';
-import { Spinner } from './ui/spinner.js';
-import { EmitterListener } from '../emitter/emitter.js';
 import { title } from './ui/title.js';
-
-const listeners: EmitterListener[] = [new Spinner()];
+import { TaskList } from './ui/task-list.js';
 
 program
   .name('pack-it')
@@ -26,21 +23,20 @@ program
   )
   .action(async ({ branch }: { branch: string }) => {
     const packIt = PackIt.from(
-      new Config(_.merge(Loader.load(), { git: { branch } })),
-      listeners
+      new Config(_.merge(Loader.load(), { git: { branch } }))
     );
 
-    await packIt.build();
+    await TaskList.from(packIt.tasks()).run();
   });
 
-program
-  .command('clean')
-  .description('delete .pack-it and zip file directories')
-  .action(() => {
-    const packIt = PackIt.from(new Config(Loader.load()), listeners);
+// program
+//   .command('clean')
+//   .description('delete .pack-it and zip file directories')
+//   .action(() => {
+//     const packIt = PackIt.from(new Config(Loader.load()));
 
-    packIt.clean();
-  });
+//     packIt.clean();
+//   });
 
 function main() {
   title();

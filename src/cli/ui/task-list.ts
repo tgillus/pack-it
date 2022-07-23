@@ -1,6 +1,4 @@
-import delay from 'delay';
 import { Listr, ListrTask } from 'listr2';
-import { title } from './title.js';
 
 export class TaskList {
   constructor(private readonly tasks: Task[]) {}
@@ -33,22 +31,3 @@ export interface TaskListItem {
   readonly title: string;
   readonly action: () => Promise<void>;
 }
-
-title();
-
-(async () => {
-  TaskList.from([
-    new Task({
-      title: 'foo',
-      action: async () => {
-        await delay(3000);
-      },
-    }),
-    new Task({
-      title: 'bar',
-      action: async () => {
-        await delay(3000);
-      },
-    }),
-  ]).run();
-})();

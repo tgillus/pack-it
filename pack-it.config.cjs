@@ -3,5 +3,8 @@ module.exports = {
   git: {
     url: 'git@github.com:tgillus/pack-it.git',
   },
-  includeDirs: ['lib', 'node_modules'],
+  zip: {
+    destination: 'dist',
+    include: ['lib', 'node_modules'],
+  },
 };

@@ -1,3 +1,5 @@
+import path from 'path';
+import { Task } from '../cli/ui/task-list.js';
 import { Config } from '../config/config.js';
 import { FileSystem } from '../file-system/file-system.js';
 
@@ -7,8 +9,29 @@ export class Cleaner {
     private readonly fs: FileSystem
   ) {}
 
-  clean() {
-    this.fs.rm([this.config.tmpDir]);
+  async clean() {
+    const {
+      tmpDir,
+      zip: { destination },
+    } = this.config;
+
+    await this.fs.rm([tmpDir, destination]);
+  }
+
+  tasks() {
+    const {
+      packItDir,
+      zip: { destination },
+    } = this.config;
+
+    return [
+      new Task({
+        title: `Deleting ${path.basename(packItDir)} and ${path.basename(
+          destination
+        )}`,
+        action: this.clean.bind(this),
+      }),
+    ];
   }
 
   static from(config: Config) {

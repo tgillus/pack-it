@@ -42,19 +42,21 @@ module.exports = {
   git: {
     url: 'git@github.com:tgillus/pack-it.git',
   },
-  artifactDir: 'dist',
-  includeDirs: ['lib', 'node_modules'],
+  zip: {
+    destination: 'dist',
+    include: ['lib', 'node_modules'],
+  },
 };
 ```
 
 ### Configuration Settings
 
-| Setting       | Description                                             | Required | Default                   |
-| ------------- | ------------------------------------------------------- | -------- | ------------------------- |
-| `projectName` | Name of the project. Used in the zip file name.         | true     |                           |
-| `git.url`     | Repo whose source code is cloned and zipped.            | true     |                           |
-| `artifactDir` | Directory where the produced zip file is saved.         | false    | `'dist'`                  |
-| `includeDirs` | Array of directories that are included in the zip file. | false    | `['lib', 'node_modules']` |
+| Setting           | Description                                     | Required | Default                   |
+| ----------------- | ----------------------------------------------- | -------- | ------------------------- |
+| `projectName`     | Name of the project. Used in the zip file name. | true     |                           |
+| `git.url`         | Repo whose source code is cloned and zipped.    | true     |                           |
+| `zip.destination` | Directory where the zip file is saved.          | false    | `dist`                    |
+| `zip.include`     | Directories included in the zip file.           | false    | `['lib', 'node_modules']` |
 
 ### Commands
 

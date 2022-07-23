@@ -3,16 +3,16 @@ import { Operations } from './operations.js';
 export class FileSystem {
   constructor(private readonly operations: Operations) {}
 
-  rm(patterns: readonly string[]) {
-    this.operations.rm(patterns);
+  async rm(patterns: readonly string[]) {
+    await this.operations.rm(patterns);
   }
 
-  mkdir(path: string) {
-    this.operations.mkdir(path);
+  async mkdir(path: string) {
+    await this.operations.mkdir(path);
   }
 
-  isDir(path: string) {
-    this.operations.isDir(path);
+  async isDir(path: string) {
+    await this.operations.isDir(path);
   }
 
   static build() {

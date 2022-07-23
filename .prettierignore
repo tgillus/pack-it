@@ -1,5 +1,5 @@
 /coverage
-/deploy
+/dist
 /.husky
 /lib
 /node_modules
