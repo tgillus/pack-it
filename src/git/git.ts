@@ -5,21 +5,21 @@ import { GitGateway } from './git-gateway.js';
 export class Git {
   constructor(
     private readonly gitGateway: GitGateway,
-    private readonly emitter: GitEmmitter
+    private readonly emitter: GitEmitter
   ) {}
 
   async clone() {
-    await this.emitter.cloneStarted();
+    await this.emitter.cloneStart();
     await this.gitGateway.clone();
-    await this.emitter.cloneSucceeded();
+    await this.emitter.cloneSucceed();
   }
 
   static from(config: Config, emitter: Emitter) {
-    return new Git(GitGateway.from(config), new GitEmmitter(config, emitter));
+    return new Git(GitGateway.from(config), new GitEmitter(config, emitter));
   }
 }
 
-export class GitEmmitter {
+export class GitEmitter {
   private readonly text: string;
 
   constructor(config: Config, private readonly emitter: Emitter) {
@@ -28,11 +28,11 @@ export class GitEmmitter {
     this.text = `Cloning from ${url} and checking out ${branch} branch`;
   }
 
-  async cloneStarted() {
+  async cloneStart() {
     await this.emitter.start(this.text);
   }
 
-  async cloneSucceeded() {
+  async cloneSucceed() {
     await this.emitter.succeed(this.text);
   }
 }
