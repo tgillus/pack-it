@@ -1,7 +1,7 @@
 module.exports = {
   git: {
-    commitMessage: 'Release v${version}',
-    tagAnnotation: 'Release v${version}',
+    commitMessage: 'chore(release): release v${version}',
+    tagAnnotation: 'release v${version}',
     tagName: 'v${version}',
   },
   github: {
