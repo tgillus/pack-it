@@ -1,38 +1,14 @@
-import { Ingredients } from '../../pantry/ingredients.js';
+import { Ingredients } from '../../incredients/ingredients.js';
 import { Process } from '../../utensils/process/process.js';
 import { Recipe, Step } from '../recipe.js';
 
 export class Npm implements Recipe {
   constructor(
-    private readonly config: Ingredients,
+    private readonly ingredients: Ingredients,
     private readonly process: Process
   ) {}
 
-  installDeps = async () => {
-    await this.process.exec('npm', ['install'], this.config.feastDir);
-  };
-
-  build = async () => {
-    await this.process.exec('npm', ['run', 'build'], this.config.feastDir);
-  };
-
-  cleanModules = async () => {
-    await this.process.exec(
-      'npm',
-      ['run', 'clean:modules'],
-      this.config.feastDir
-    );
-  };
-
-  installProdDeps = async () => {
-    await this.process.exec(
-      'npm',
-      ['install', '--production'],
-      this.config.feastDir
-    );
-  };
-
-  steps(): Step[] {
+  get steps(): Step[] {
     return [
       {
         description: 'Installing dependencies',
@@ -53,7 +29,31 @@ export class Npm implements Recipe {
     ];
   }
 
-  static from(config: Ingredients) {
-    return new Npm(config, new Process());
+  private installDeps = async () => {
+    await this.process.exec('npm', ['install'], this.ingredients.feastDir);
+  };
+
+  private build = async () => {
+    await this.process.exec('npm', ['run', 'build'], this.ingredients.feastDir);
+  };
+
+  private cleanModules = async () => {
+    await this.process.exec(
+      'npm',
+      ['run', 'clean:modules'],
+      this.ingredients.feastDir
+    );
+  };
+
+  private installProdDeps = async () => {
+    await this.process.exec(
+      'npm',
+      ['install', '--production'],
+      this.ingredients.feastDir
+    );
+  };
+
+  static from(ingredients: Ingredients) {
+    return new Npm(ingredients, new Process());
   }
 }

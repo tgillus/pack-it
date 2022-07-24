@@ -1,24 +1,15 @@
-import { Ingredients } from '../../pantry/ingredients.js';
+import { Ingredients } from '../../incredients/ingredients.js';
 import { Recipe, Step } from '../recipe.js';
 import { GitGateway } from './git-gateway.js';
 
 export class Git implements Recipe {
   constructor(
-    private readonly config: Ingredients,
+    private readonly ingredients: Ingredients,
     private readonly gitGateway: GitGateway
   ) {}
 
-  clone = async () => {
-    const {
-      git: { url, branch },
-      feastDir,
-    } = this.config;
-
-    await this.gitGateway.clone(url, branch, feastDir);
-  };
-
-  steps(): Step[] {
-    const { url, branch } = this.config.git;
+  get steps(): Step[] {
+    const { url, branch } = this.ingredients.git;
 
     return [
       {
@@ -28,7 +19,16 @@ export class Git implements Recipe {
     ];
   }
 
-  static from(config: Ingredients) {
-    return new Git(config, GitGateway.build());
+  private clone = async () => {
+    const {
+      git: { url, branch },
+      feastDir,
+    } = this.ingredients;
+
+    await this.gitGateway.clone(url, branch, feastDir);
+  };
+
+  static from(ingredients: Ingredients) {
+    return new Git(ingredients, GitGateway.build());
   }
 }

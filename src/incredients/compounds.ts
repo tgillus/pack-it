@@ -1,4 +1,4 @@
-export interface PantrySettings {
+export interface PantryCompounds {
   readonly name: string;
   readonly git: {
     readonly url: string;

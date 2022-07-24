@@ -1,7 +1,7 @@
 import { Listr } from 'listr2';
 import { Step } from '../../recipe/recipe.js';
 
-export class Chef {
+export class Feast {
   private constructor(private readonly actions: Listr) {}
 
   async prepare() {
@@ -9,7 +9,7 @@ export class Chef {
   }
 
   static from(steps: Step[]) {
-    return new Chef(new Listr(Chef.tasks(steps)));
+    return new Feast(new Listr(Feast.tasks(steps)));
   }
 
   private static tasks(steps: Step[]) {

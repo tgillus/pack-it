@@ -1,47 +1,43 @@
-import { Ingredients } from '../../pantry/ingredients.js';
+import { Ingredients } from '../../incredients/ingredients.js';
 import { Builder } from './builder.js';
 import { Cleaner } from './cleaner.js';
-import { Preparer } from './preparer.js';
+import { Setup } from './setup.js';
 import { Recipe, Step } from '../recipe.js';
 
 export class Cookbook implements Recipe {
   constructor(private readonly recipes: Recipe[]) {}
 
-  steps() {
-    return this.recipes.flatMap((recipe) => recipe.steps());
+  get steps() {
+    return this.recipes.flatMap((recipe) => recipe.steps);
   }
 
-  static recipe(config: Ingredients, name: 'clean' | 'prepare') {
+  static recipe(ingredients: Ingredients, name: 'clean' | 'prepare') {
     switch (name) {
       case 'clean':
-        return new Clean(config);
+        return new Clean(ingredients);
       case 'prepare':
       default:
-        return new Build(config, [new Clean(config)]);
+        return new Prepare(ingredients);
     }
   }
 }
 
 class Clean implements Recipe {
-  private readonly recipes: Recipe[];
+  public readonly steps: Step[];
 
-  constructor(config: Ingredients) {
-    this.recipes = [Cleaner.from(config)];
-  }
-
-  steps(): Step[] {
-    return this.recipes.flatMap((recipe) => recipe.steps());
+  constructor(ingredients: Ingredients) {
+    this.steps = Cleaner.from(ingredients).steps;
   }
 }
 
-class Build implements Recipe {
-  private readonly recipes: Recipe[];
+class Prepare implements Recipe {
+  public readonly steps: Step[];
 
-  constructor(config: Ingredients, recipes: Recipe[] = []) {
-    this.recipes = [...recipes, Preparer.from(config), Builder.from(config)];
-  }
-
-  steps(): Step[] {
-    return this.recipes.flatMap((recipe) => recipe.steps());
+  constructor(ingredients: Ingredients) {
+    this.steps = [
+      new Clean(ingredients),
+      Setup.from(ingredients),
+      Builder.from(ingredients),
+    ].flatMap((recipe) => recipe.steps);
   }
 }

@@ -1,5 +1,5 @@
 export interface Recipe {
-  steps(): Step[];
+  readonly steps: Step[];
 }
 
 export interface Step {

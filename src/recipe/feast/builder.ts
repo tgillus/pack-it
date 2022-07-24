@@ -1,16 +1,16 @@
-import { Ingredients } from '../../pantry/ingredients.js';
+import { Ingredients } from '../../incredients/ingredients.js';
 import { Git } from '../git/git.js';
 import { Npm } from '../npm/npm.js';
 import { Recipe, Step } from '../recipe.js';
 
 export class Builder implements Recipe {
-  constructor(private readonly git: Git, private readonly npm: Npm) {}
+  public readonly steps: Step[];
 
-  steps(): Step[] {
-    return [...this.git.steps(), ...this.npm.steps()];
+  constructor(recipes: readonly Recipe[]) {
+    this.steps = recipes.flatMap((recipe) => recipe.steps);
   }
 
-  static from(config: Ingredients) {
-    return new Builder(Git.from(config), Npm.from(config));
+  static from(ingredients: Ingredients) {
+    return new Builder([Git.from(ingredients), Npm.from(ingredients)]);
   }
 }

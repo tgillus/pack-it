@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 import _ from 'lodash';
 import { program } from 'commander';
-import { Cook } from '../cook/cook.js';
-import { Ingredients } from '../pantry/ingredients.js';
+import { Lab } from '../incredients/lab.js';
+import { Ingredients } from '../incredients/ingredients.js';
 import { release } from './release.js';
 import { title } from './ui/title.js';
-import { Chef } from './ui/chef.js';
+import { Feast } from './ui/feast.js';
 import { Cookbook } from '../recipe/feast/cookbook.js';
 
 program
@@ -23,23 +23,23 @@ program
   )
   .action(async ({ branch }: { branch: string }) => {
     const ingredients = new Ingredients(
-      _.merge(Cook.ingredients(), { git: { branch } })
+      _.merge(Lab.compounds(), { git: { branch } })
     );
     const recipe = Cookbook.recipe(ingredients, 'prepare');
-    const tasklist = Chef.from(recipe.steps());
+    const feast = Feast.from(recipe.steps);
 
-    await tasklist.prepare();
+    await feast.prepare();
   });
 
 program
   .command('clean')
   .description('delete build artifacts')
   .action(async () => {
-    const ingredients = new Ingredients(Cook.ingredients());
+    const ingredients = new Ingredients(Lab.compounds());
     const recipe = Cookbook.recipe(ingredients, 'clean');
-    const tasklist = Chef.from(recipe.steps());
+    const feast = Feast.from(recipe.steps);
 
-    await tasklist.prepare();
+    await feast.prepare();
   });
 
 function main() {

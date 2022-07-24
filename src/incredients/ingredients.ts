@@ -1,11 +1,11 @@
 import { packageDirectorySync } from 'pkg-dir';
-import { CliSettings } from '../cli/settings.js';
-import { PantrySettings } from './settings.js';
+import { CliCompounds } from '../cli/compounds.js';
+import { PantryCompounds } from './compounds.js';
 
 export class Ingredients {
   public readonly rootDir: string;
 
-  constructor(private readonly settings: PantrySettings & CliSettings) {
+  constructor(private readonly settings: PantryCompounds & CliCompounds) {
     this.rootDir = packageDirectorySync();
   }
 
