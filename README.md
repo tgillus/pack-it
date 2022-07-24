@@ -39,7 +39,7 @@ Feast! looks for a config file named `feast.config.cjs` in the project's root di
 module.exports = {
   name: 'feast',
   git: {
-    url: 'git@github.com:tgillus/pack-it.git',
+    url: 'git@github.com:tgillus/feast.git',
   },
   zip: {
     destination: 'dist',
