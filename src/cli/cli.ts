@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-import _ from 'lodash';
 import { program } from 'commander';
 import { Lab } from '../ingredients/lab.js';
 import { Ingredients } from '../ingredients/ingredients.js';
@@ -23,7 +22,7 @@ program
   )
   .action(async ({ branch }: { branch: string }) => {
     const ingredients = new Ingredients(
-      _.merge(Lab.compounds(), { git: { branch } })
+      Lab.merge(Lab.compounds(), { git: { branch } })
     );
     const recipe = Cookbook.recipe(ingredients, 'prepare');
     const feast = Feast.from(recipe.steps);
