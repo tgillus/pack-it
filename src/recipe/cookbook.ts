@@ -1,6 +1,6 @@
 import { Ingredients } from '../ingredients/ingredients.js';
 import { Construction } from './core/construction.js';
-import { Sanitation } from './core/sanitation.js';
+import { Cleanup } from './core/cleanup.js';
 import { Groundwork } from './core/groundwork.js';
 import { Recipe, Step } from './recipe.js';
 
@@ -26,7 +26,7 @@ class Clean implements Recipe {
   public readonly steps: Step[];
 
   constructor(ingredients: Ingredients) {
-    this.steps = Sanitation.from(ingredients).steps;
+    this.steps = Cleanup.from(ingredients).steps;
   }
 }
 

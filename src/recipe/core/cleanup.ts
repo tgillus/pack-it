@@ -3,7 +3,7 @@ import { Ingredients } from '../../ingredients/ingredients.js';
 import { FileSystem } from '../../utensils/file-system/file-system.js';
 import { Recipe, Step } from '../recipe.js';
 
-export class Sanitation implements Recipe {
+export class Cleanup implements Recipe {
   constructor(
     private readonly ingredients: Ingredients,
     private readonly fs: FileSystem
@@ -20,12 +20,12 @@ export class Sanitation implements Recipe {
         description: `Deleting ${path.basename(feastDir)} and ${path.basename(
           destination
         )}`,
-        perform: this.sanitize,
+        perform: this.clean,
       },
     ];
   }
 
-  private sanitize = async () => {
+  private clean = async () => {
     const {
       feastDir,
       zip: { destination },
@@ -35,6 +35,6 @@ export class Sanitation implements Recipe {
   };
 
   static from(ingredients: Ingredients) {
-    return new Sanitation(ingredients, FileSystem.build());
+    return new Cleanup(ingredients, FileSystem.build());
   }
 }
