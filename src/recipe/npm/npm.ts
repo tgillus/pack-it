@@ -8,7 +8,7 @@ export class Npm implements Recipe {
     private readonly process: Process
   ) {}
 
-  get steps(): Step[] {
+  get steps(): readonly Step[] {
     return [
       {
         description: 'Installing dependencies',

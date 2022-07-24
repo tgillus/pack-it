@@ -5,6 +5,6 @@ export interface PantryCompounds {
   };
   readonly zip: {
     readonly destination: string;
-    readonly include: string[];
+    readonly include: readonly string[];
   };
 }

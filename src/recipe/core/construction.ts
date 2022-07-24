@@ -4,7 +4,7 @@ import { Npm } from '../npm/npm.js';
 import { Recipe, Step } from '../recipe.js';
 
 export class Construction implements Recipe {
-  public readonly steps: Step[];
+  public readonly steps: readonly Step[];
 
   constructor(recipes: readonly Recipe[]) {
     this.steps = recipes.flatMap((recipe) => recipe.steps);

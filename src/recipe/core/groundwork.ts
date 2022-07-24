@@ -9,7 +9,7 @@ export class Groundwork implements Recipe {
     private readonly fs: FileSystem
   ) {}
 
-  get steps(): Step[] {
+  get steps(): readonly Step[] {
     const {
       feastDir,
       zip: { destination },

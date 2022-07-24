@@ -8,11 +8,11 @@ export class Feast {
     await this.actions.run();
   }
 
-  static from(steps: Step[]) {
+  static from(steps: readonly Step[]) {
     return new Feast(new Listr(Feast.tasks(steps)));
   }
 
-  private static tasks(steps: Step[]) {
+  private static tasks(steps: readonly Step[]) {
     return steps.map(({ description: title, perform: task }) => ({
       title,
       task,

@@ -5,7 +5,7 @@ import { Groundwork } from './core/groundwork.js';
 import { Recipe, Step } from './recipe.js';
 
 export class Cookbook implements Recipe {
-  constructor(private readonly recipes: Recipe[]) {}
+  constructor(private readonly recipes: readonly Recipe[]) {}
 
   get steps() {
     return this.recipes.flatMap((recipe) => recipe.steps);
@@ -23,7 +23,7 @@ export class Cookbook implements Recipe {
 }
 
 class Clean implements Recipe {
-  public readonly steps: Step[];
+  public readonly steps: readonly Step[];
 
   constructor(ingredients: Ingredients) {
     this.steps = Cleanup.from(ingredients).steps;
@@ -31,7 +31,7 @@ class Clean implements Recipe {
 }
 
 class Prepare implements Recipe {
-  public readonly steps: Step[];
+  public readonly steps: readonly Step[];
 
   constructor(ingredients: Ingredients) {
     this.steps = [

@@ -8,7 +8,7 @@ export class Git implements Recipe {
     private readonly gitGateway: GitGateway
   ) {}
 
-  get steps(): Step[] {
+  get steps(): readonly Step[] {
     const { url, branch } = this.ingredients.git;
 
     return [
