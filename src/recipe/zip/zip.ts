@@ -1,6 +1,6 @@
 import path from 'path';
-import { FileSystem } from '../../index.js';
 import { Ingredients } from '../../ingredients/ingredients.js';
+import { FileSystem } from '../../utensils/file-system/file-system.js';
 import { Recipe, Step } from '../recipe.js';
 
 export class Zip implements Recipe {

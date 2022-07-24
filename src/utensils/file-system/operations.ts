@@ -1,5 +1,5 @@
-import fs from 'fs';
 import { deleteAsync } from 'del';
+import fs from 'fs';
 import makeDir from 'make-dir';
 import { isDirectory } from 'path-type';
 

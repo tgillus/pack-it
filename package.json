@@ -30,8 +30,8 @@
     "zip"
   ],
   "scripts": {
-    "barrel": "barrelsby -c barrelsby.json && npm run format && replace-in-files --regex=$'(export * from \\'.+)?\\';\\n' --replacement=$'$1.js\\';\\n' ./src/index.ts",
-    "build": "npm run clean && npm run barrel && npm test && tsc",
+    "barrels": "barrelsby -c barrelsby.json && npm run format && replace-in-files --regex=$'(export * from \\'.+)?\\';\\n' --replacement=$'$1.js\\';\\n' ./src/index.ts",
+    "build": "npm run clean && npm run barrels && npm test && tsc",
     "clean": "del ./lib ./coverage",
     "clean:modules": "del ./node_modules",
     "format": "prettier . --write",

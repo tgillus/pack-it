@@ -1,5 +1,5 @@
-import fs from 'fs';
 import archiver from 'archiver';
+import fs from 'fs';
 
 export class Zip {
   async zip(patterns: readonly string[], stream: fs.WriteStream) {

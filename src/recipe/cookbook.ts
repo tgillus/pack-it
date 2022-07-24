@@ -1,6 +1,6 @@
 import { Ingredients } from '../ingredients/ingredients.js';
-import { Construction } from './core/construction.js';
 import { Cleanup } from './core/cleanup.js';
+import { Construction } from './core/construction.js';
 import { Groundwork } from './core/groundwork.js';
 import { Recipe, recipesToSteps, Step } from './recipe.js';
 

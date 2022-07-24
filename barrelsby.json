@@ -1,4 +1,11 @@
 {
   "delete": true,
-  "directory": ["src"]
+  "directory": ["src"],
+  "include": [
+    "src/cli/cli.ts",
+    "src/cli/ui/feast.ts",
+    "src/ingredients/ingredients.ts",
+    "src/ingredients/lab.ts",
+    "src/recipe/cookbook.ts"
+  ]
 }

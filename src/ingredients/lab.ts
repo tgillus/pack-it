@@ -1,8 +1,8 @@
-import _ from 'lodash';
-import { cosmiconfigSync } from 'cosmiconfig';
 import is from '@sindresorhus/is';
+import { cosmiconfigSync } from 'cosmiconfig';
+import _ from 'lodash';
+import { CliCompounds } from '../cli/compounds.js';
 import { PantryCompounds } from './compounds.js';
-import { CliCompounds } from '../index.js';
 
 export class Lab {
   compounds() {
