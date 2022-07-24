@@ -1,4 +1,4 @@
-import { Ingredients } from '../../incredients/ingredients.js';
+import { Ingredients } from '../../ingredients/ingredients.js';
 import { Git } from '../git/git.js';
 import { Npm } from '../npm/npm.js';
 import { Recipe, Step } from '../recipe.js';

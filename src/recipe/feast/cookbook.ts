@@ -1,4 +1,4 @@
-import { Ingredients } from '../../incredients/ingredients.js';
+import { Ingredients } from '../../ingredients/ingredients.js';
 import { Builder } from './builder.js';
 import { Cleaner } from './cleaner.js';
 import { Setup } from './setup.js';

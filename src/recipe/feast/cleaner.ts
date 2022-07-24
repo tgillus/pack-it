@@ -1,5 +1,5 @@
 import path from 'path';
-import { Ingredients } from '../../incredients/ingredients.js';
+import { Ingredients } from '../../ingredients/ingredients.js';
 import { FileSystem } from '../../utensils/file-system/file-system.js';
 import { Recipe, Step } from '../recipe.js';
 

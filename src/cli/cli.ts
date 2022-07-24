@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 import _ from 'lodash';
 import { program } from 'commander';
-import { Lab } from '../incredients/lab.js';
-import { Ingredients } from '../incredients/ingredients.js';
+import { Lab } from '../ingredients/lab.js';
+import { Ingredients } from '../ingredients/ingredients.js';
 import { release } from './release.js';
 import { title } from './ui/title.js';
 import { Feast } from './ui/feast.js';
