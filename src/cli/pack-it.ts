@@ -3,14 +3,16 @@ import { program } from 'commander';
 import { Ingredients } from '../ingredients/ingredients.js';
 import { Lab } from '../ingredients/lab.js';
 import { Cookbook } from '../recipe/cookbook.js';
-import { release } from './release.js';
+import { Release } from './release.js';
 import { Feast } from './ui/feast.js';
 import { title } from './ui/title.js';
+
+const { version } = Release.build();
 
 program
   .name('pack-it')
   .description('Pack It! bundles source code into a zip file')
-  .version(release());
+  .version(version);
 
 program
   .command('prepare')

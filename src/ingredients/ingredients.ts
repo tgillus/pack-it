@@ -7,10 +7,7 @@ export class Ingredients {
   public readonly rootDir: string;
   public readonly version?: string;
 
-  constructor(
-    private readonly compounds: PantryCompounds & CliCompounds,
-    pkg: Package
-  ) {
+  constructor(private readonly compounds: Compounds, pkg: Package) {
     this.rootDir = pkg.rootDir();
     this.version = pkg.packageVersion(this.packItDir);
   }
@@ -53,7 +50,9 @@ export class Ingredients {
     return `${this.rootDir}/.pack-it`;
   }
 
-  static from(compounds: PantryCompounds & CliCompounds) {
+  static from(compounds: Compounds) {
     return new Ingredients(compounds, new Package());
   }
 }
+
+type Compounds = PantryCompounds & CliCompounds;

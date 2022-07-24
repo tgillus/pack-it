@@ -7,7 +7,7 @@ export class Package {
     return packageDirectorySync();
   }
 
-  packageVersion(cwd: string) {
+  packageVersion(cwd?: string) {
     const version = readPackageUpSync({
       cwd,
     })?.packageJson.version;

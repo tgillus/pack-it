@@ -1,10 +1,13 @@
-import { assert } from '@sindresorhus/is';
-import { readPackageUpSync } from 'read-pkg-up';
+import { Package } from '../utensils/pkg/package.js';
 
-export const release = () => {
-  const version = readPackageUpSync()?.packageJson.version;
+export class Release {
+  public readonly version: string;
 
-  assert.string(version);
+  constructor(pkg: Package) {
+    this.version = pkg.packageVersion();
+  }
 
-  return version;
-};
+  static build() {
+    return new Release(new Package());
+  }
+}
