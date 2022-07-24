@@ -41,9 +41,9 @@ program
     await feast.prepare();
   });
 
-function main() {
+function run() {
   title();
   program.parseAsync();
 }
 
-main();
+run();
