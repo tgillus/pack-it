@@ -80,7 +80,6 @@
     "listr2": "4.0.5",
     "lodash": "4.17.21",
     "make-dir": "3.1.0",
-    "path-type": "5.0.0",
     "pkg-dir": "6.0.1",
     "read-pkg-up": "9.1.0"
   }

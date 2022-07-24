@@ -1,7 +1,6 @@
 import { deleteAsync } from 'del';
 import fs from 'fs';
 import makeDir from 'make-dir';
-import { isDirectory } from 'path-type';
 
 export class Operations {
   async rm(patterns: readonly string[]) {
@@ -10,10 +9,6 @@ export class Operations {
 
   async mkdir(path: string) {
     await makeDir(path);
-  }
-
-  async isDir(path: string) {
-    return await isDirectory(path);
   }
 
   writeStream(path: string) {

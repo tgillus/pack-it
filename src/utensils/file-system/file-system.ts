@@ -15,10 +15,6 @@ export class FileSystem {
     await this.operations.mkdir(path);
   }
 
-  async isDir(path: string) {
-    await this.operations.isDir(path);
-  }
-
   async zip(destination: string, ...patterns: readonly string[]) {
     await this.zipper.zip(this.operations.writeStream(destination), patterns);
   }
