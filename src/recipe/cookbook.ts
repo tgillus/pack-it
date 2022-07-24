@@ -2,22 +2,22 @@ import { Ingredients } from '../ingredients/ingredients.js';
 import { Construction } from './core/construction.js';
 import { Cleanup } from './core/cleanup.js';
 import { Groundwork } from './core/groundwork.js';
-import { Recipe, Step } from './recipe.js';
+import { Recipe, recipesToSteps, Step } from './recipe.js';
 
 export class Cookbook implements Recipe {
-  constructor(private readonly recipes: readonly Recipe[]) {}
+  public readonly steps: Step[];
 
-  get steps() {
-    return this.recipes.flatMap((recipe) => recipe.steps);
+  constructor(...recipes: readonly Recipe[]) {
+    this.steps = recipesToSteps(...recipes);
   }
 
-  static recipe(ingredients: Ingredients, name: 'clean' | 'prepare') {
+  static recipe(ingredients: Ingredients, name: 'clean' | 'prepare'): Recipe {
     switch (name) {
       case 'clean':
-        return new Clean(ingredients);
+        return new Cookbook(new Clean(ingredients));
       case 'prepare':
       default:
-        return new Prepare(ingredients);
+        return new Cookbook(new Clean(ingredients), new Prepare(ingredients));
     }
   }
 }
@@ -34,10 +34,9 @@ class Prepare implements Recipe {
   public readonly steps: readonly Step[];
 
   constructor(ingredients: Ingredients) {
-    this.steps = [
-      new Clean(ingredients),
+    this.steps = recipesToSteps(
       Groundwork.from(ingredients),
-      Construction.from(ingredients),
-    ].flatMap((recipe) => recipe.steps);
+      Construction.from(ingredients)
+    );
   }
 }
