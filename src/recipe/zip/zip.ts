@@ -1,9 +1,9 @@
 import path from 'path';
+import { FileSystem } from '../../index.js';
 import { Ingredients } from '../../ingredients/ingredients.js';
-import { FileSystem } from '../../utensils/file-system/file-system.js';
 import { Recipe, Step } from '../recipe.js';
 
-export class Cleanup implements Recipe {
+export class Zip implements Recipe {
   constructor(
     private readonly ingredients: Ingredients,
     private readonly fs: FileSystem
@@ -11,30 +11,30 @@ export class Cleanup implements Recipe {
 
   get steps(): readonly Step[] {
     const {
-      feastDir,
+      artifact,
       zip: { destination },
     } = this.ingredients;
 
     return [
       {
-        description: `Delete ${path.basename(feastDir)} and ${path.basename(
+        description: `Build ${path.basename(artifact)} in ${path.basename(
           destination
         )}`,
-        perform: this.clean,
+        perform: this.zip,
       },
     ];
   }
 
-  private clean = async () => {
+  private zip = async () => {
     const {
-      feastDir,
-      zip: { destination },
+      artifact,
+      zip: { include },
     } = this.ingredients;
 
-    await this.fs.rm([feastDir, destination]);
+    await this.fs.zip(include, artifact);
   };
 
   static from(ingredients: Ingredients) {
-    return new Cleanup(ingredients, FileSystem.build());
+    return new Zip(ingredients, FileSystem.build());
   }
 }

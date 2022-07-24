@@ -50,12 +50,12 @@ module.exports = {
 
 ### Configuration Settings
 
-| Setting           | Description                                     | Required | Default                   |
-| ----------------- | ----------------------------------------------- | -------- | ------------------------- |
-| `name`            | Name of the project. Used in the zip file name. | true     |                           |
-| `git.url`         | Repo whose source code is cloned and zipped.    | true     |                           |
-| `zip.destination` | Directory where the zip file is saved.          | false    | `dist`                    |
-| `zip.include`     | Directories included in the zip file.           | false    | `['lib', 'node_modules']` |
+| Setting           | Description                                     |
+| ----------------- | ----------------------------------------------- |
+| `name`            | Name of the project. Used in the zip file name. |
+| `git.url`         | Repo whose source code is cloned and zipped.    |
+| `zip.destination` | Directory where the zip file is saved.          |
+| `zip.include`     | Directories included in the zip file.           |
 
 ### Commands
 
@@ -67,10 +67,10 @@ module.exports = {
 
 ### Prepare
 
-Feast! expects an NPM script named `prepare` to be defined in `package.json`. In other words, Feast! executes the following command to build the project:
+Feast! expects an NPM script named `build` to be defined in `package.json`. In other words, Feast! executes the following command to build the project:
 
 ```bash
-npm run prepare
+npm run build
 ```
 
 Feast! installs an executable named `feast`. Run the following in the root of the project to bundle it as a zip file:

@@ -1,3 +1,4 @@
+import fs from 'fs';
 import { deleteAsync } from 'del';
 import makeDir from 'make-dir';
 import { isDirectory } from 'path-type';
@@ -13,5 +14,9 @@ export class Operations {
 
   async isDir(path: string) {
     return await isDirectory(path);
+  }
+
+  writeStream(path: string) {
+    return fs.createWriteStream(path);
   }
 }

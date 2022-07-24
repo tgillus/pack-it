@@ -5,6 +5,6 @@ module.exports = {
   },
   zip: {
     destination: 'dist',
-    include: ['lib', 'node_modules'],
+    include: ['lib/**/*', 'node_modules/**/*', 'package.json'],
   },
 };

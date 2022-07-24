@@ -11,19 +11,19 @@ export class Npm implements Recipe {
   get steps(): readonly Step[] {
     return [
       {
-        description: 'Installing dependencies',
+        description: 'Install dependencies',
         perform: this.installDeps,
       },
       {
-        description: 'Building project',
+        description: 'Build project',
         perform: this.build,
       },
       {
-        description: 'Deleting project dependencies',
+        description: 'Delete dependencies',
         perform: this.cleanModules,
       },
       {
-        description: 'Installing project production dependencies',
+        description: 'Install production dependencies',
         perform: this.installProdDeps,
       },
     ];

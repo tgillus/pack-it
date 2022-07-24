@@ -31,6 +31,15 @@ export class Ingredients {
     };
   }
 
+  get artifact() {
+    const {
+      name,
+      zip: { destination },
+    } = this;
+
+    return `${destination}/${name}.zip`;
+  }
+
   get feastDir() {
     return `${this.rootDir}/.feast`;
   }

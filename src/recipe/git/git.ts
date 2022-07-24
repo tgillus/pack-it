@@ -13,7 +13,7 @@ export class Git implements Recipe {
 
     return [
       {
-        description: `Cloning from ${url} and checking out ${branch} branch`,
+        description: `Clone from ${url} and check out ${branch} branch`,
         perform: this.clone,
       },
     ];

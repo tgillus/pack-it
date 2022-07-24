@@ -17,7 +17,7 @@ export class Groundwork implements Recipe {
 
     return [
       {
-        description: `Creating ${path.basename(feastDir)} and ${path.basename(
+        description: `Create ${path.basename(feastDir)} and ${path.basename(
           destination
         )}`,
         perform: this.setup,
