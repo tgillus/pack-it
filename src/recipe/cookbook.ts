@@ -26,7 +26,7 @@ class Clean implements Recipe {
   public readonly steps: readonly Step[];
 
   constructor(ingredients: Ingredients) {
-    this.steps = Cleanup.from(ingredients).steps;
+    this.steps = recipesToSteps(Cleanup.from(ingredients));
   }
 }
 
