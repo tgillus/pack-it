@@ -43,19 +43,19 @@ module.exports = {
   },
   zip: {
     destination: 'dist',
-    include: ['lib', 'node_modules'],
+    include: ['lib/**/*', 'node_modules/**/*', 'package.json'],
   },
 };
 ```
 
 ### Configuration Settings
 
-| Setting           | Description                                     |
-| ----------------- | ----------------------------------------------- |
-| `name`            | Name of the project. Used in the zip file name. |
-| `git.url`         | Repo whose source code is cloned and zipped.    |
-| `zip.destination` | Directory where the zip file is saved.          |
-| `zip.include`     | Directories included in the zip file.           |
+| Setting           | Description                                                                     |
+| ----------------- | ------------------------------------------------------------------------------- |
+| `name`            | Name of the project. Used in the zip file name.                                 |
+| `git.url`         | Repo whose source code is cloned and zipped.                                    |
+| `zip.destination` | Directory where the zip file is saved.                                          |
+| `zip.include`     | Directories/files included in the zip file. (NOTE: Values valid glob patterns.) |
 
 ### Commands
 
