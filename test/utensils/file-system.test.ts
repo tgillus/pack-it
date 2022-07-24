@@ -38,3 +38,7 @@ test('builds zip file', () => {
 
   td.verify(zip.zip(stream, patterns));
 });
+
+test('builds a file system object', (t) => {
+  t.true(FileSystem.build() instanceof FileSystem);
+});
