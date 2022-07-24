@@ -1,8 +1,8 @@
-import { Ingredients } from '../../ingredients/ingredients.js';
-import { Builder } from './builder.js';
-import { Cleaner } from './cleaner.js';
-import { Setup } from './setup.js';
-import { Recipe, Step } from '../recipe.js';
+import { Ingredients } from '../ingredients/ingredients.js';
+import { Construction } from './core/construction.js';
+import { Sanitation } from './core/sanitation.js';
+import { Groundwork } from './core/groundwork.js';
+import { Recipe, Step } from './recipe.js';
 
 export class Cookbook implements Recipe {
   constructor(private readonly recipes: Recipe[]) {}
@@ -26,7 +26,7 @@ class Clean implements Recipe {
   public readonly steps: Step[];
 
   constructor(ingredients: Ingredients) {
-    this.steps = Cleaner.from(ingredients).steps;
+    this.steps = Sanitation.from(ingredients).steps;
   }
 }
 
@@ -36,8 +36,8 @@ class Prepare implements Recipe {
   constructor(ingredients: Ingredients) {
     this.steps = [
       new Clean(ingredients),
-      Setup.from(ingredients),
-      Builder.from(ingredients),
+      Groundwork.from(ingredients),
+      Construction.from(ingredients),
     ].flatMap((recipe) => recipe.steps);
   }
 }

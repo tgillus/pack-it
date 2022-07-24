@@ -6,7 +6,7 @@ import { Ingredients } from '../ingredients/ingredients.js';
 import { release } from './release.js';
 import { title } from './ui/title.js';
 import { Feast } from './ui/feast.js';
-import { Cookbook } from '../recipe/feast/cookbook.js';
+import { Cookbook } from '../recipe/cookbook.js';
 
 program
   .name('Feast!')

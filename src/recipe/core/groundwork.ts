@@ -3,7 +3,7 @@ import { Ingredients } from '../../ingredients/ingredients.js';
 import { FileSystem } from '../../utensils/file-system/file-system.js';
 import { Recipe, Step } from '../recipe.js';
 
-export class Setup implements Recipe {
+export class Groundwork implements Recipe {
   constructor(
     private readonly ingredients: Ingredients,
     private readonly fs: FileSystem
@@ -20,12 +20,12 @@ export class Setup implements Recipe {
         description: `Creating ${path.basename(feastDir)} and ${path.basename(
           destination
         )}`,
-        perform: this.prepare,
+        perform: this.setup,
       },
     ];
   }
 
-  private prepare = async () => {
+  private setup = async () => {
     const {
       feastDir,
       zip: { destination },
@@ -36,6 +36,6 @@ export class Setup implements Recipe {
   };
 
   static from(ingredients: Ingredients) {
-    return new Setup(ingredients, FileSystem.build());
+    return new Groundwork(ingredients, FileSystem.build());
   }
 }
