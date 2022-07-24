@@ -1,16 +1,16 @@
 import { packageDirectorySync } from 'pkg-dir';
 import { CliSettings } from '../cli/settings.js';
-import { PackItSettings } from './settings.js';
+import { PantrySettings } from './settings.js';
 
-export class Config {
+export class Ingredients {
   public readonly rootDir: string;
 
-  constructor(private readonly settings: PackItSettings & CliSettings) {
+  constructor(private readonly settings: PantrySettings & CliSettings) {
     this.rootDir = packageDirectorySync();
   }
 
-  get projectName() {
-    return this.settings.projectName;
+  get name() {
+    return this.settings.name;
   }
 
   get git() {
@@ -31,7 +31,7 @@ export class Config {
     };
   }
 
-  get packItDir() {
-    return `${this.rootDir}/.pack-it`;
+  get feastDir() {
+    return `${this.rootDir}/.feast`;
   }
 }

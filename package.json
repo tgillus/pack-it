@@ -2,7 +2,7 @@
   "name": "@triviumsoftware/pack-it",
   "type": "module",
   "version": "1.6.0",
-  "description": "Pack It! is a packager that bundles source code within a standard Node.js project into a zip file.",
+  "description": "Feast is a packager that bundles source code within a standard Node.js project into a zip file.",
   "author": "Tramaine L. Gillus",
   "repository": {
     "type": "git",
@@ -13,7 +13,7 @@
     "node": ">=14.16"
   },
   "bin": {
-    "pack-it": "./lib/cli/cli.js"
+    "feast": "./lib/cli/cli.js"
   },
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",

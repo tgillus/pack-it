@@ -1,20 +1,20 @@
 #!/usr/bin/env node
 import _ from 'lodash';
 import { program } from 'commander';
-import { Loader } from '../config/loader.js';
-import { Config } from '../config/config.js';
+import { Cook } from '../cook/cook.js';
+import { Ingredients } from '../pantry/ingredients.js';
 import { release } from './release.js';
-import { PackIt } from '../pack-it/pack-it.js';
 import { title } from './ui/title.js';
-import { TaskList } from './ui/task-list.js';
+import { Chef } from './ui/chef.js';
+import { Cookbook } from '../recipe/feast/cookbook.js';
 
 program
-  .name('pack-it')
-  .description('Pack It! bundles source code into a zip file')
+  .name('Feast!')
+  .description('Feast! bundles source code into a zip file')
   .version(release());
 
 program
-  .command('build')
+  .command('prepare')
   .description('build zip file')
   .requiredOption(
     '-b, --branch <branch>',
@@ -22,22 +22,24 @@ program
     'main'
   )
   .action(async ({ branch }: { branch: string }) => {
-    const packIt = PackIt.from(
-      new Config(_.merge(Loader.load(), { git: { branch } }))
+    const ingredients = new Ingredients(
+      _.merge(Cook.ingredients(), { git: { branch } })
     );
-    const tasklist = TaskList.from(packIt.steps('build'));
+    const recipe = Cookbook.recipe(ingredients, 'prepare');
+    const tasklist = Chef.from(recipe.steps());
 
-    await tasklist.run();
+    await tasklist.prepare();
   });
 
 program
   .command('clean')
   .description('delete build artifacts')
   .action(async () => {
-    const packIt = PackIt.from(new Config(Loader.load()));
-    const tasklist = TaskList.from(packIt.steps('clean'));
+    const ingredients = new Ingredients(Cook.ingredients());
+    const recipe = Cookbook.recipe(ingredients, 'clean');
+    const tasklist = Chef.from(recipe.steps());
 
-    await tasklist.run();
+    await tasklist.prepare();
   });
 
 function main() {
