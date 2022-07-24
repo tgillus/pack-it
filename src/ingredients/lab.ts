@@ -19,7 +19,7 @@ export class Lab {
     return new Lab().compounds();
   }
 
-  static merge(pantry: PantryCompounds, cli: CliCompounds) {
+  static mix(pantry: PantryCompounds, cli: CliCompounds) {
     return _.merge(pantry, cli);
   }
 }

@@ -22,7 +22,7 @@ program
   )
   .action(async ({ branch }: { branch: string }) => {
     const ingredients = new Ingredients(
-      Lab.merge(Lab.compounds(), { git: { branch } })
+      Lab.mix(Lab.compounds(), { git: { branch } })
     );
     const recipe = Cookbook.recipe(ingredients, 'prepare');
     const feast = Feast.from(recipe.steps);
