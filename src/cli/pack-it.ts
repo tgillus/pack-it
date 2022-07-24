@@ -21,7 +21,7 @@ program
     'main'
   )
   .action(async ({ branch }: { branch: string }) => {
-    const ingredients = new Ingredients(
+    const ingredients = Ingredients.from(
       Lab.mix(Lab.compounds(), { git: { branch } })
     );
     const recipe = Cookbook.recipe(ingredients, 'prepare');
@@ -34,7 +34,7 @@ program
   .command('clean')
   .description('delete build artifacts')
   .action(async () => {
-    const ingredients = new Ingredients(Lab.compounds());
+    const ingredients = Ingredients.from(Lab.compounds());
     const recipe = Cookbook.recipe(ingredients, 'clean');
     const feast = Feast.from(recipe.steps);
 
