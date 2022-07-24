@@ -2,7 +2,7 @@
   "delete": true,
   "directory": ["src"],
   "include": [
-    "src/cli/cli.ts",
+    "src/cli/pack-it.ts",
     "src/cli/ui/feast.ts",
     "src/ingredients/ingredients.ts",
     "src/ingredients/lab.ts",

@@ -1,7 +1,7 @@
 /coverage
 /dist
-/.feast
 /.husky
 /lib
 /node_modules
+/.pack-it
 /tmp

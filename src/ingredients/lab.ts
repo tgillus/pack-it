@@ -6,10 +6,10 @@ import { PantryCompounds } from './compounds.js';
 
 export class Lab {
   compounds() {
-    const result = cosmiconfigSync('feast').search();
+    const result = cosmiconfigSync('pack-it').search();
 
     if (is.nullOrUndefined(result)) {
-      throw new Error('Feast configuration not found');
+      throw new Error('Pack It! configuration not found');
     }
 
     return result.config as PantryCompounds;

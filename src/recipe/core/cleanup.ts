@@ -11,13 +11,13 @@ export class Cleanup implements Recipe {
 
   get steps(): readonly Step[] {
     const {
-      feastDir,
+      packItDir,
       zip: { destination },
     } = this.ingredients;
 
     return [
       {
-        description: `Delete ${path.basename(feastDir)} and ${path.basename(
+        description: `Delete ${path.basename(packItDir)} and ${path.basename(
           destination
         )}`,
         perform: this.clean,
@@ -27,11 +27,11 @@ export class Cleanup implements Recipe {
 
   private clean = async () => {
     const {
-      feastDir,
+      packItDir,
       zip: { destination },
     } = this.ingredients;
 
-    await this.fs.rm([feastDir, destination]);
+    await this.fs.rm(packItDir, destination);
   };
 
   static from(ingredients: Ingredients) {

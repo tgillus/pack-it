@@ -2,9 +2,9 @@
 /dist
 .env
 .eslintcache
-/.feast
 /lib
 /node_modules
+/.pack-it
 /tmp
 
 log*

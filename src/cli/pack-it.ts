@@ -8,8 +8,8 @@ import { Feast } from './ui/feast.js';
 import { Cookbook } from '../recipe/cookbook.js';
 
 program
-  .name('Feast!')
-  .description('Feast! bundles source code into a zip file')
+  .name('pack-it')
+  .description('Pack It! bundles source code into a zip file')
   .version(release());
 
 program

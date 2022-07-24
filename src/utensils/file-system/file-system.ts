@@ -7,7 +7,7 @@ export class FileSystem {
     private readonly zipper: Zip
   ) {}
 
-  async rm(patterns: readonly string[]) {
+  async rm(...patterns: readonly string[]) {
     await this.operations.rm(patterns);
   }
 
@@ -19,8 +19,8 @@ export class FileSystem {
     await this.operations.isDir(path);
   }
 
-  async zip(patterns: readonly string[], destination: string) {
-    await this.zipper.zip(patterns, this.operations.writeStream(destination));
+  async zip(destination: string, ...patterns: readonly string[]) {
+    await this.zipper.zip(this.operations.writeStream(destination), patterns);
   }
 
   static build() {

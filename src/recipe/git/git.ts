@@ -22,10 +22,10 @@ export class Git implements Recipe {
   private clone = async () => {
     const {
       git: { url, branch },
-      feastDir,
+      packItDir,
     } = this.ingredients;
 
-    await this.gitGateway.clone(url, branch, feastDir);
+    await this.gitGateway.clone(url, branch, packItDir);
   };
 
   static from(ingredients: Ingredients) {

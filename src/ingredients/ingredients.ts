@@ -40,7 +40,7 @@ export class Ingredients {
     return `${destination}/${name}.zip`;
   }
 
-  get feastDir() {
-    return `${this.rootDir}/.feast`;
+  get packItDir() {
+    return `${this.rootDir}/.pack-it`;
   }
 }

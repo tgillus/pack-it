@@ -1,5 +1,5 @@
 module.exports = {
-  name: 'feast',
+  name: 'pack-it',
   git: {
     url: 'git@github.com:tgillus/pack-it.git',
   },

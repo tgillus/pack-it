@@ -30,18 +30,22 @@ export class Npm implements Recipe {
   }
 
   private installDeps = async () => {
-    await this.process.exec('npm', ['install'], this.ingredients.feastDir);
+    await this.process.exec('npm', ['install'], this.ingredients.packItDir);
   };
 
   private build = async () => {
-    await this.process.exec('npm', ['run', 'build'], this.ingredients.feastDir);
+    await this.process.exec(
+      'npm',
+      ['run', 'build'],
+      this.ingredients.packItDir
+    );
   };
 
   private cleanModules = async () => {
     await this.process.exec(
       'npm',
       ['run', 'clean:modules'],
-      this.ingredients.feastDir
+      this.ingredients.packItDir
     );
   };
 
@@ -49,7 +53,7 @@ export class Npm implements Recipe {
     await this.process.exec(
       'npm',
       ['install', '--production'],
-      this.ingredients.feastDir
+      this.ingredients.packItDir
     );
   };
 

@@ -17,7 +17,7 @@ export class Zip implements Recipe {
 
     return [
       {
-        description: `Build ${path.basename(artifact)} in ${path.basename(
+        description: `Construct ${path.basename(artifact)} in ${path.basename(
           destination
         )}`,
         perform: this.zip,
@@ -31,7 +31,7 @@ export class Zip implements Recipe {
       zip: { include },
     } = this.ingredients;
 
-    await this.fs.zip(include, artifact);
+    await this.fs.zip(artifact, ...include);
   };
 
   static from(ingredients: Ingredients) {

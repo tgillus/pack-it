@@ -11,13 +11,13 @@ export class Groundwork implements Recipe {
 
   get steps(): readonly Step[] {
     const {
-      feastDir,
+      packItDir,
       zip: { destination },
     } = this.ingredients;
 
     return [
       {
-        description: `Create ${path.basename(feastDir)} and ${path.basename(
+        description: `Create ${path.basename(packItDir)} and ${path.basename(
           destination
         )}`,
         perform: this.setup,
@@ -27,11 +27,11 @@ export class Groundwork implements Recipe {
 
   private setup = async () => {
     const {
-      feastDir,
+      packItDir,
       zip: { destination },
     } = this.ingredients;
 
-    this.fs.mkdir(feastDir);
+    this.fs.mkdir(packItDir);
     this.fs.mkdir(destination);
   };
 

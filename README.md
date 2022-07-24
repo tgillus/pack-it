@@ -1,6 +1,6 @@
-# Feast!
+# Pack It!
 
-Feast! is a packager that bundles source code within a standard Node.js project into a zip file.
+Pack It! is a packager that bundles source code within a standard Node.js project into a zip file.
 
 ![Build Status](https://github.com/tgillus/pack-it/actions/workflows/main.yml/badge.svg)
 [![GitHub version](https://img.shields.io/github/package-json/v/tgillus/pack-it)](https://github.com/tgillus/pack-it#readme)
@@ -33,13 +33,13 @@ yarn add --dev @triviumsoftware/pack-it
 
 ### Configuration File
 
-Feast! looks for a config file named `feast.config.cjs` in the project's root directory. The following is an example with all of the configurable settings:
+Pack It! looks for a config file named `pack-it.config.cjs` in the project's root directory. The following is an example with all of the configurable settings:
 
 ```javascript
 module.exports = {
-  name: 'feast',
+  name: 'pack-it',
   git: {
-    url: 'git@github.com:tgillus/feast.git',
+    url: 'git@github.com:tgillus/pack-it.git',
   },
   zip: {
     destination: 'dist',
@@ -59,40 +59,40 @@ module.exports = {
 
 ### Commands
 
-| Command             | Description                                      |
-| ------------------- | ------------------------------------------------ |
-| `npx feast`         | Bundle the project as a zip file.                |
-| `npx feast prepare` | Bundle the project as a zip file.                |
-| `npx feast clean`   | Delete .feast and `zip.destination` directories. |
+| Command               | Description                                        |
+| --------------------- | -------------------------------------------------- |
+| `npx pack-it`         | Bundle the project as a zip file.                  |
+| `npx pack-it prepare` | Bundle the project as a zip file.                  |
+| `npx pack-it clean`   | Delete .pack-it and `zip.destination` directories. |
 
 ### Prepare
 
-Feast! expects an NPM script named `build` to be defined in `package.json`. In other words, Feast! executes the following command to build the project:
+Pack It! expects an NPM script named `build` to be defined in `package.json`. In other words, Pack It! executes the following command to build the project:
 
 ```bash
 npm run build
 ```
 
-Feast! installs an executable named `feast`. Run the following in the root of the project to bundle it as a zip file:
+Pack It! installs an executable named `pack-it`. Run the following in the root of the project to bundle it as a zip file:
 
 ```bash
-npx feast
+npx pack-it
 ```
 
 or
 
 ```bash
-npx feast prepare
+npx pack-it prepare
 ```
 
-> NOTE: Feast! clones a fresh copy of the project's repository prior to building and bundling the project. It installs all of the project's dependencies after it's cloned in order to build the project. However, only production dependencies are bundled with the zip file.
+> NOTE: Pack It! clones a fresh copy of the project's repository prior to building and bundling the project. It installs all of the project's dependencies after it's cloned in order to build the project. However, only production dependencies are bundled with the zip file.
 
 ### Clean Up
 
-Run the following in the root of the project to remove the .feast and `zip.destination` directories:
+Run the following in the root of the project to remove the .pack-it and `zip.destination` directories:
 
 ```bash
-npx feast clean
+npx pack-it clean
 ```
 
 ## Author
@@ -101,4 +101,4 @@ npx feast clean
 
 ## License
 
-Feast! is distributed under the MIT License. See the LICENSE file for more information.
+Pack It! is distributed under the MIT License. See the LICENSE file for more information.

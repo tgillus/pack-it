@@ -2,7 +2,7 @@ import archiver from 'archiver';
 import fs from 'fs';
 
 export class Zip {
-  async zip(patterns: readonly string[], stream: fs.WriteStream) {
+  async zip(stream: fs.WriteStream, patterns: readonly string[]) {
     const archive = archiver('zip');
 
     archive.pipe(stream);
