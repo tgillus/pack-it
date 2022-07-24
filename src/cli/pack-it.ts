@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 import { program } from 'commander';
-import { Lab } from '../ingredients/lab.js';
 import { Ingredients } from '../ingredients/ingredients.js';
-import { release } from './release.js';
-import { title } from './ui/title.js';
-import { Feast } from './ui/feast.js';
+import { Lab } from '../ingredients/lab.js';
 import { Cookbook } from '../recipe/cookbook.js';
+import { release } from './release.js';
+import { Feast } from './ui/feast.js';
+import { title } from './ui/title.js';
 
 program
   .name('pack-it')

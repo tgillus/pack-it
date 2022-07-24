@@ -1,12 +1,18 @@
 import { packageDirectorySync } from 'pkg-dir';
 import { CliCompounds } from '../cli/compounds.js';
 import { PantryCompounds } from './compounds.js';
+import { readPackageUpSync } from 'read-pkg-up';
+import { assert } from '@sindresorhus/is';
 
 export class Ingredients {
   public readonly rootDir: string;
+  public readonly version?: string;
 
   constructor(private readonly settings: PantryCompounds & CliCompounds) {
     this.rootDir = packageDirectorySync();
+    this.version = readPackageUpSync({
+      cwd: this.packItDir,
+    })?.packageJson.version;
   }
 
   get name() {
@@ -34,10 +40,13 @@ export class Ingredients {
   get artifact() {
     const {
       name,
+      version,
       zip: { destination },
     } = this;
 
-    return `${destination}/${name}.zip`;
+    assert.string(version);
+
+    return `${destination}/${name}-${version}.zip`;
   }
 
   get packItDir() {
